@@ -1,0 +1,95 @@
+.container {
+	display: flex;
+	align-items: center;
+	font-family: Rajdhani;
+	font-weight: 600;
+	color: var(--title);
+}
+
+.container > div {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+
+	background-color: var(--white);
+	box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
+	border-radius: 5px;
+	font-size: 8.5rem;
+	text-align: center;
+}
+
+.container > div span {
+	flex: 1;
+}
+
+.container > div span:first-child {
+	border-right: 1px solid #f0f1f3;
+}
+
+.container > div span:last-child {
+	border-left: 1px solid #f0f1f3;
+}
+
+.container > span {
+	font-size: 6.25rem;
+	margin: 0 0.5rem;
+}
+
+.cycleButton {
+	width: 100%;
+	height: 5rem;
+
+	margin-top: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	border: 0;
+	border-radius: 5px;
+
+	background: var(--blue);
+	color: var(--white);
+
+	font-size: 1.25rem;
+	font-weight: 600;
+
+	transition: all 0.15s linear;
+}
+
+.cycleButton:not(:disabled):hover {
+	background: var(--dark-blue);
+}
+
+.cycleButton:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.cycleButtonActive {
+	background: var(--white);
+	color: var(--title);
+}
+
+.cycleButtonActive:not(:disabled):hover {
+	background: var(--red);
+	color: var(--white);
+}
+
+.cycleButton:disabled {
+	background: var(--white);
+	color: var(--text);
+	cursor: default;
+
+	border-bottom: 6px solid var(--green);
+}
+
+.completedIcon {
+	width: 1.25rem;
+	height: 1.25rem;
+
+	margin-left: 0.5rem;
+
+	filter: invert(65%) sepia(25%) saturate(1236%) hue-rotate(63deg)
+		brightness(80%) contrast(102%);
+}
