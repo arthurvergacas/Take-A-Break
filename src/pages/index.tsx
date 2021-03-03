@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Profile } from "../components/Profile";
 import { ExperienceBar } from "./../components/ExperienceBar";
@@ -9,8 +9,27 @@ import { ChallengeBox } from "../components/ChallengeBox";
 import styles from "../styles/pages/Home.module.css";
 
 import Head from "next/head";
+import { GetServerSideProps } from "next";
+import { ChallengesContext } from "../contexts/ChallengesContexts";
 
-export default function Home() {
+export default function Home(props) {
+	const {
+		setLevel,
+		setCurrentExperience,
+		setChallengesCompleted,
+		level,
+		currentExperience,
+		challengesCompleted,
+	} = useContext(ChallengesContext);
+
+	// get cookies from next server
+	// need to wrap it with use effect so react don't get confused with rendering and updating stuff
+	useEffect(() => {
+		setLevel(props.level ?? level);
+		setCurrentExperience(props.xp ?? currentExperience);
+		setChallengesCompleted(props.challenges ?? challengesCompleted);
+	}, []);
+
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -34,3 +53,15 @@ export default function Home() {
 		</div>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const { level, xp, challenges } = ctx.req.cookies;
+
+	return {
+		props: {
+			level: Number(level),
+			xp: Number(xp),
+			challenges: Number(challenges),
+		},
+	};
+};

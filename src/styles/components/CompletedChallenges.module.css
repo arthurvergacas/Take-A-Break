@@ -13,3 +13,8 @@
 .container > span:first-child {
 	font-size: 1.25rem;
 }
+
+.container > span:last-child {
+	font-size: 2rem;
+	font-weight: 500;
+}

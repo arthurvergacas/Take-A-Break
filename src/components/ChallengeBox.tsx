@@ -35,7 +35,7 @@ export function ChallengeBox() {
 						<button
 							type="button"
 							className={styles.challengeCompletedBtn}
-							onClick={() => onChallengeCompleted(activeChallenge.xp)}
+							onClick={onChallengeCompleted}
 						>
 							Completei
 						</button>
