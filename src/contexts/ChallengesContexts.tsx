@@ -34,6 +34,8 @@ interface ChallengesContextData {
 	setLevel: Function;
 	setCurrentExperience: Function;
 	setChallengesCompleted: Function;
+	isLvlUpModalActive: boolean;
+	disableLvlUpModal: () => void;
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
@@ -44,6 +46,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 	const [challengesCompleted, setChallengesCompleted] = useState(0);
 	const [activeChallenge, setActiveChallenge] = useState(null);
 	const [initialTime, setInitialTime] = useState(1); // in seconds
+	const [isLvlUpModalActive, setIsLvlUpModalActive] = useState(false);
 
 	const maxXp = Math.pow((level + 1) * 5, 2);
 
@@ -62,6 +65,15 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
 	function levelUp() {
 		setLevel(level + 1);
+		enableLvlUpModal();
+	}
+
+	function enableLvlUpModal() {
+		setIsLvlUpModalActive(true);
+	}
+
+	function disableLvlUpModal() {
+		setIsLvlUpModalActive(false);
 	}
 
 	function onChallengeCompleted() {
@@ -113,6 +125,8 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		setLevel,
 		setCurrentExperience,
 		setChallengesCompleted,
+		isLvlUpModalActive,
+		disableLvlUpModal,
 	};
 
 	return (

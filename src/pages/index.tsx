@@ -21,6 +21,7 @@ export default function Home(props) {
 		level,
 		currentExperience,
 		challengesCompleted,
+		isLvlUpModalActive,
 	} = useContext(ChallengesContext);
 
 	// get cookies from next server
@@ -34,7 +35,7 @@ export default function Home(props) {
 	return (
 		<div className={styles.container}>
 			{/* modal shown when leveling up */}
-			<LevelUpModal />
+			{isLvlUpModalActive && <LevelUpModal />}
 
 			<Head>
 				<title>Início | move.it</title>
