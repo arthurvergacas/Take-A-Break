@@ -46,12 +46,17 @@ button {
 	cursor: pointer;
 }
 
-button:focus {
-	outline: none;
-}
-
 a {
 	color: inherit;
 	text-decoration: none;
+	outline: none;
+}
+
+/* accessibilty outline thingies -> cool resource at: https://medium.com/hackernoon/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2*/
+
+body:not(.user-is-tabbing) button:focus,
+body:not(.user-is-tabbing) input:focus,
+body:not(.user-is-tabbing) select:focus,
+body:not(.user-is-tabbing) textarea:focus {
 	outline: none;
 }

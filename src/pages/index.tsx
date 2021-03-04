@@ -11,6 +11,7 @@ import styles from "../styles/pages/Home.module.css";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { ChallengesContext } from "../contexts/ChallengesContexts";
+import { LevelUpModal } from "../components/LevelUpModal";
 
 export default function Home(props) {
 	const {
@@ -23,7 +24,7 @@ export default function Home(props) {
 	} = useContext(ChallengesContext);
 
 	// get cookies from next server
-	// need to wrap it with use effect so react don't get confused with rendering and updating stuff
+	// need to wrap it with use effect so react don't get confused with rendering and updating stuff at the same time
 	useEffect(() => {
 		setLevel(props.level ?? level);
 		setCurrentExperience(props.xp ?? currentExperience);
@@ -32,6 +33,9 @@ export default function Home(props) {
 
 	return (
 		<div className={styles.container}>
+			{/* modal shown when leveling up */}
+			<LevelUpModal />
+
 			<Head>
 				<title>Início | move.it</title>
 			</Head>

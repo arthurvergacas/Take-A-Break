@@ -86,10 +86,11 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
 		setActiveChallenge(challenge);
 
+		// send notification to user
 		if (Notification.permission === "granted") {
 			new Notification("Novo desafio! 🏃‍♂️", {
 				body: `Valendo ${challenge.xp} xp!`,
-				silent: true,
+				// silent: true, // use this if you are developing it and tired of hearing the notification
 			});
 		}
 	}

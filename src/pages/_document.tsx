@@ -12,6 +12,8 @@ export default class MyDocument extends Document {
 					/>
 				</Head>
 
+				<script type="text/javascript" src="js/accessibility.js"></script>
+
 				<body>
 					<Main />
 					<NextScript />
