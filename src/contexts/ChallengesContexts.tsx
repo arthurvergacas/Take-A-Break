@@ -6,7 +6,6 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import Cookies from "js-cookie";
 
 import challenges from "../challenges.json";
 
@@ -56,11 +55,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 	}, []);
 
 	useEffect(() => {
-		Cookies.set("level", String(level), { expires: 365 * 20 });
-		Cookies.set("xp", String(currentExperience), { expires: 365 * 20 });
-		Cookies.set("challenges", String(challengesCompleted), {
-			expires: 365 * 20,
-		});
+		// store information on supabase. => how? need to serch
 	}, [level, currentExperience, challengesCompleted]);
 
 	function levelUp() {
