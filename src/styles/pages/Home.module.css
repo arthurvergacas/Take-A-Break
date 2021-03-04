@@ -8,6 +8,33 @@
 	flex-direction: column;
 }
 
+.container > header {
+	display: grid;
+	grid-template-columns: 9fr 1fr;
+	margin-bottom: 0.8rem;
+}
+
+.loginContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.loginLink {
+	font-size: 1.1rem;
+	font-weight: 500;
+
+	margin-bottom: 1.5rem;
+
+	transition: all 0.1s linear;
+
+	cursor: pointer;
+}
+
+.loginLink:hover {
+	color: var(--red);
+}
+
 .container > section {
 	flex: 1;
 

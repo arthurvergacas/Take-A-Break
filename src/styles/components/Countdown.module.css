@@ -45,7 +45,7 @@
 	align-items: center;
 	justify-content: center;
 
-	border: 0;
+	border: none;
 	border-radius: 5px;
 
 	background: var(--blue);

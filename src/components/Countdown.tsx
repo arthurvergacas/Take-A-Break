@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { ChallengesContext } from "../contexts/ChallengesContexts";
 import styles from "../styles/components/Countdown.module.css";
+import { Button } from "./Button";
 
 let countdownTimeout: NodeJS.Timeout;
 
@@ -99,21 +100,16 @@ export function Countdown() {
 			) : (
 				<>
 					{isActive ? (
-						<button
-							type="button"
+						<Button
 							className={`${styles.cycleButton} ${styles.cycleButtonActive}`}
 							onClick={resetCountdown}
 						>
 							Abandonar ciclo
-						</button>
+						</Button>
 					) : (
-						<button
-							type="button"
-							className={styles.cycleButton}
-							onClick={startCountdown}
-						>
+						<Button className={styles.cycleButton} onClick={startCountdown}>
 							Iniciar ciclo
-						</button>
+						</Button>
 					)}
 				</>
 			)}
