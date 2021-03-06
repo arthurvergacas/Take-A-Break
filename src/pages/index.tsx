@@ -10,13 +10,25 @@ import styles from "../styles/pages/Home.module.css";
 
 import Head from "next/head";
 import Link from "next/link";
+import { GetServerSideProps } from "next";
 
 import { ChallengesContext } from "../contexts/ChallengesContexts";
 import { LevelUpModal } from "../components/LevelUpModal";
 import { Menu } from "../components/Menu";
+import { getMainCookies } from "../utils/GetCookies";
 
-export default function Home() {
+interface HomeProps {
+	level: number;
+	xp: number;
+	challenges: number;
+	userName: string;
+	userImg: string;
+}
+
+export default function Home(props: HomeProps) {
 	const { isLvlUpModalActive } = useContext(ChallengesContext);
+
+	getMainCookies(props);
 
 	return (
 		<Menu>
@@ -25,23 +37,21 @@ export default function Home() {
 				{isLvlUpModalActive && <LevelUpModal />}
 
 				<Head>
-					<title>Início | move.it</title>
+					<title>Início | Take A Break</title>
 				</Head>
 
 				<header>
 					<ExperienceBar />
 
-					<div className={styles.loginContainer}>
-						<Link href="/login">
-							<a className={styles.loginLink}>Log in</a>
-						</Link>
-					</div>
+					<Link href="/login">
+						<a className={styles.loginLink}>Log in</a>
+					</Link>
 				</header>
 
 				<section>
 					{/* div esquerda */}
 					<div>
-						<Profile />
+						<Profile userName={props.userName} userImg={props.userImg} />
 						<CompletedChallenges />
 						<Countdown />
 					</div>
@@ -54,3 +64,19 @@ export default function Home() {
 		</Menu>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const { level, xp, challenges, userName, userImg } = ctx.req.cookies;
+
+	console.log(ctx.req.cookies);
+
+	return {
+		props: {
+			level: Number(level),
+			xp: Number(xp),
+			challenges: Number(challenges),
+			userName: userName ?? "Máquina de Vencer",
+			userImg: userImg ?? "img/home-office.jpg",
+		},
+	};
+};

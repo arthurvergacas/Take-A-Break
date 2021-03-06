@@ -1,11 +1,6 @@
-import {
-	createContext,
-	Dispatch,
-	ReactNode,
-	SetStateAction,
-	useEffect,
-	useState,
-} from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+
+import Cookies from "js-cookie";
 
 import challenges from "../challenges.json";
 
@@ -33,7 +28,9 @@ interface ChallengesContextData {
 	setLevel: Function;
 	setCurrentExperience: Function;
 	setChallengesCompleted: Function;
+	setIsLoggedIn: Function;
 	isLvlUpModalActive: boolean;
+	isLoggedIn: boolean;
 	disableLvlUpModal: () => void;
 }
 
@@ -47,14 +44,25 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 	const [initialTime, setInitialTime] = useState(1); // in seconds
 	const [isLvlUpModalActive, setIsLvlUpModalActive] = useState(false);
 
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 	const maxXp = Math.pow((level + 1) * 5, 2);
 
+	// ask for notification permission
 	useEffect(() => {
-		// ask for notification permission
 		Notification.requestPermission();
 	}, []);
 
+	// store user data
 	useEffect(() => {
+		// store information in cookies if user is not logged in
+		// TODO: add if statement to check if user is logged in.
+		//			 if not, store information with cookies, otherwise, store in db
+		Cookies.set("level", String(level), { expires: 365 * 20 });
+		Cookies.set("xp", String(currentExperience), { expires: 365 * 20 });
+		Cookies.set("challenges", String(challengesCompleted), {
+			expires: 365 * 20,
+		});
 		// store information on supabase. => how? need to serch
 	}, [level, currentExperience, challengesCompleted]);
 
@@ -122,6 +130,8 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		setChallengesCompleted,
 		isLvlUpModalActive,
 		disableLvlUpModal,
+		isLoggedIn,
+		setIsLoggedIn,
 	};
 
 	return (

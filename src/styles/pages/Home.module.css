@@ -14,25 +14,29 @@
 	margin-bottom: 0.8rem;
 }
 
-.loginContainer {
+.loginLink {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
 
-.loginLink {
 	font-size: 1.1rem;
 	font-weight: 500;
 
+	background: var(--blue);
+	color: var(--background);
+	border-radius: 5px;
+
 	margin-bottom: 1.5rem;
+	margin-left: 1.2rem;
+	min-width: 55px;
+
+	padding: 0.35rem 0;
 
 	transition: all 0.1s linear;
-
-	cursor: pointer;
 }
 
 .loginLink:hover {
-	color: var(--red);
+	background: var(--dark-blue);
 }
 
 .container > section {
