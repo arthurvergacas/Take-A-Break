@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { Profile } from "../components/Profile";
 import { ExperienceBar } from "./../components/ExperienceBar";
@@ -16,6 +16,7 @@ import { ChallengesContext } from "../contexts/ChallengesContexts";
 import { LevelUpModal } from "../components/LevelUpModal";
 import { Menu } from "../components/Menu";
 import { getMainCookies } from "../utils/GetCookies";
+import Cookies from "js-cookie";
 
 interface HomeProps {
 	level: number;
@@ -26,9 +27,29 @@ interface HomeProps {
 }
 
 export default function Home(props: HomeProps) {
-	const { isLvlUpModalActive } = useContext(ChallengesContext);
+	const {
+		isLvlUpModalActive,
+		isLoggedIn,
+		setIsLoggedIn,
+		checkIfUserIsLogged,
+	} = useContext(ChallengesContext);
 
 	getMainCookies(props);
+
+	useEffect(() => {
+		checkIfUserIsLogged();
+	}, []);
+
+	function handleLogout() {
+		// remove cookies
+		Cookies.remove("userName");
+		Cookies.remove("userImg");
+
+		setIsLoggedIn(false);
+
+		// refresh page
+		window.location.reload();
+	}
 
 	return (
 		<Menu>
@@ -43,9 +64,15 @@ export default function Home(props: HomeProps) {
 				<header>
 					<ExperienceBar />
 
-					<Link href="/login">
-						<a className={styles.loginLink}>Log in</a>
-					</Link>
+					{isLoggedIn ? (
+						<button className={styles.logoutLink} onClick={handleLogout}>
+							Log out
+						</button>
+					) : (
+						<Link href="/login">
+							<button className={styles.loginLink}>Log in</button>
+						</Link>
+					)}
 				</header>
 
 				<section>

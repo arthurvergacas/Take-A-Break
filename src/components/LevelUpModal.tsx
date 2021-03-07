@@ -25,7 +25,7 @@ export function LevelUpModal() {
 		exited: { transform: "scale(0)" },
 	};
 
-	const duration = 300;
+	const duration = 250;
 	const transitionStyle = {
 		transition: `all ${duration}ms ease-in-out`,
 	};
@@ -38,12 +38,12 @@ export function LevelUpModal() {
 		setInProp(false);
 	}
 
-	function actuallyDisabledModal() {
+	function actuallyDisableModal() {
 		disableLvlUpModal();
 	}
 
 	return (
-		<Transition in={inProp} timeout={duration} onExited={actuallyDisabledModal}>
+		<Transition in={inProp} timeout={duration} onExited={actuallyDisableModal}>
 			{(state) => (
 				<div
 					className={styles.overlay}

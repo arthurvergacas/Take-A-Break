@@ -28,10 +28,11 @@ interface ChallengesContextData {
 	setLevel: Function;
 	setCurrentExperience: Function;
 	setChallengesCompleted: Function;
-	setIsLoggedIn: Function;
 	isLvlUpModalActive: boolean;
 	isLoggedIn: boolean;
 	disableLvlUpModal: () => void;
+	checkIfUserIsLogged: () => void;
+	setIsLoggedIn: Function;
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
@@ -114,6 +115,12 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		setActiveChallenge(null);
 	}
 
+	function checkIfUserIsLogged() {
+		if (Cookies.get("userName") && Cookies.get("userImg")) {
+			setIsLoggedIn(true);
+		}
+	}
+
 	const data = {
 		maxXp,
 		level,
@@ -131,6 +138,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		isLvlUpModalActive,
 		disableLvlUpModal,
 		isLoggedIn,
+		checkIfUserIsLogged,
 		setIsLoggedIn,
 	};
 

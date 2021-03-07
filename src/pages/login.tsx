@@ -20,8 +20,6 @@ interface GoogleOAuthResponse {
 }
 
 export default function Login(props) {
-	const { setIsLoggedIn } = useContext(ChallengesContext);
-
 	function startOAuthFlow() {
 		const googleOauthEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
 
@@ -77,6 +75,7 @@ export default function Login(props) {
 		return response.data;
 	}
 
+	// cookies from level and etc
 	getMainCookies(props);
 
 	useEffect(() => {
@@ -95,16 +94,13 @@ export default function Login(props) {
 				//  - fetch user data
 				const userData = await makeOAuth2Request();
 
-				//	- set a state saying that the user is logged in
-				setIsLoggedIn(true);
-
 				//  - get the info and set the profile name and photo in the cookies
 				Cookies.set("userName", String(userData.name), { expires: 365 * 20 });
 				Cookies.set("userImg", String(userData.picture), { expires: 365 * 20 });
 
 				//  TODO - store the user in the db if he is not already
 
-				// here i need to set the loading bool to false
+				// remove loading indicators
 
 				// 	- redirect to main page
 				Router.push("/");
