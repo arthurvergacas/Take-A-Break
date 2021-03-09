@@ -1,6 +1,8 @@
 .profileContainer {
 	display: flex;
 	align-items: center;
+
+	width: fit-content;
 }
 
 .profileContainer > img {
@@ -13,10 +15,41 @@
 	margin-left: 1.5rem;
 }
 
-.profileContainer > div > strong {
+.profileContainer > div > div > strong {
 	font-size: 1.5rem;
 	font-weight: 600;
 	color: var(--title);
+}
+
+.nameContainer {
+	display: flex;
+	align-items: center;
+	position: relative;
+	width: 100%;
+}
+
+.nameContainer > strong {
+	margin-right: 2.5rem;
+}
+
+.nameContainer > img {
+	margin-left: 1.5rem;
+	width: 1.2rem;
+
+	opacity: 40%;
+
+	cursor: pointer;
+
+	position: absolute;
+	right: 0;
+
+	transition: all 0.1s linear;
+}
+
+.nameContainer > img:hover {
+	opacity: 80%;
+	filter: invert(34%) sepia(36%) saturate(3164%) hue-rotate(324deg)
+		brightness(94%) contrast(92%);
 }
 
 .profileContainer > div > p {

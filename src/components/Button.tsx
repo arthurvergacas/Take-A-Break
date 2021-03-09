@@ -1,3 +1,5 @@
+// TODO remove this dumb useless component jeez
+
 import styles from "../styles/components/Button.module.css";
 
 import { MouseEvent, ReactNode } from "react";

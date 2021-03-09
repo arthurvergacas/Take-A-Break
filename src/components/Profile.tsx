@@ -8,13 +8,41 @@ interface ProfileProps {
 }
 
 export function Profile(props: ProfileProps) {
-	const { level } = useContext(ChallengesContext);
+	const { level, enableEditProfileModal } = useContext(ChallengesContext);
+
+	const [editButtonInactiveClass, setEditButtonInactiveClass] = useState({
+		display: "none",
+	});
+
+	function mouseEnterProfileHandler() {
+		setEditButtonInactiveClass({ display: "inherit" });
+	}
+
+	function mouseLeaveProfileHandler() {
+		setEditButtonInactiveClass({ display: "none" });
+	}
+
+	function onEditButtonClick() {
+		enableEditProfileModal();
+	}
 
 	return (
-		<div className={styles.profileContainer}>
+		<div
+			className={styles.profileContainer}
+			onMouseEnter={mouseEnterProfileHandler}
+			onMouseLeave={mouseLeaveProfileHandler}
+		>
 			<img src={props.userImg} alt="Imagem do Perfil" />
 			<div>
-				<strong>{props.userName}</strong>
+				<div className={styles.nameContainer}>
+					<strong>{props.userName}</strong>
+					<img
+						src="icons/edit-button.svg"
+						alt="Editar Nome"
+						style={editButtonInactiveClass}
+						onClick={onEditButtonClick}
+					/>
+				</div>
 				<p>
 					<img
 						src="icons/up-arrow.svg"

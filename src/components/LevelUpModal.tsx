@@ -9,8 +9,6 @@ export function LevelUpModal() {
 
 	const [inProp, setInProp] = useState(false);
 
-	// TODO tweak the animation to make it look better
-
 	const overlayTransitionStyles = {
 		entering: { opacity: 1 },
 		entered: { opacity: 1 },

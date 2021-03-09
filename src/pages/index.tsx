@@ -17,6 +17,8 @@ import { LevelUpModal } from "../components/LevelUpModal";
 import { Menu } from "../components/Menu";
 import { getMainCookies } from "../utils/GetCookies";
 import Cookies from "js-cookie";
+import { EditProfileModal } from "../components/EditProfileModal";
+import { CustomTooltip } from "../components/CustomTooltip";
 
 interface HomeProps {
 	level: number;
@@ -32,6 +34,9 @@ export default function Home(props: HomeProps) {
 		isLoggedIn,
 		setIsLoggedIn,
 		checkIfUserIsLogged,
+		offlineUserName,
+		offlineUserPicture,
+		isEditProfileModalActive,
 	} = useContext(ChallengesContext);
 
 	getMainCookies(props);
@@ -57,6 +62,9 @@ export default function Home(props: HomeProps) {
 				{/* modal shown when leveling up */}
 				{isLvlUpModalActive && <LevelUpModal />}
 
+				{/* modal shown when user is editing profile */}
+				{isEditProfileModalActive && <EditProfileModal />}
+
 				<Head>
 					<title>Início | Take A Break</title>
 				</Head>
@@ -70,7 +78,17 @@ export default function Home(props: HomeProps) {
 						</button>
 					) : (
 						<Link href="/login">
-							<button className={styles.loginLink}>Log in</button>
+							{/* BUG Next.js bug, Link cannot be the parent of 
+											a functional custom component. Issue #7915 -> vercel/next.js */}
+							<div>
+								<CustomTooltip
+									title="Entre para personalizar seu perfil!"
+									placement="bottom"
+									fontSize="0.8rem"
+								>
+									<button className={styles.loginLink}>Log in</button>
+								</CustomTooltip>
+							</div>
 						</Link>
 					)}
 				</header>
@@ -78,7 +96,10 @@ export default function Home(props: HomeProps) {
 				<section>
 					{/* div esquerda */}
 					<div>
-						<Profile userName={props.userName} userImg={props.userImg} />
+						<Profile
+							userName={props.userName ?? offlineUserName}
+							userImg={props.userImg ?? offlineUserPicture}
+						/>
 						<CompletedChallenges />
 						<Countdown />
 					</div>
@@ -93,15 +114,23 @@ export default function Home(props: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const { level, xp, challenges, userName, userImg } = ctx.req.cookies;
+	const {
+		level,
+		xp,
+		challenges,
+		userName,
+		userImg,
+		offlinePicture,
+		offlineName,
+	} = ctx.req.cookies;
 
 	return {
 		props: {
 			level: Number(level),
 			xp: Number(xp),
 			challenges: Number(challenges),
-			userName: userName ?? "Máquina de Vencer",
-			userImg: userImg ?? "img/home-office.jpg",
+			userName: userName ?? offlineName ?? null,
+			userImg: userImg ?? offlinePicture ?? null,
 		},
 	};
 };

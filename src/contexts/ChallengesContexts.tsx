@@ -33,6 +33,12 @@ interface ChallengesContextData {
 	disableLvlUpModal: () => void;
 	checkIfUserIsLogged: () => void;
 	setIsLoggedIn: Function;
+	isEditProfileModalActive: boolean;
+	enableEditProfileModal: () => void;
+	disableEditProfileModal: () => void;
+	changeProfile: (name: string, picture: string) => void;
+	offlineUserPicture: string;
+	offlineUserName: string;
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
@@ -44,6 +50,13 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 	const [activeChallenge, setActiveChallenge] = useState(null);
 	const [initialTime, setInitialTime] = useState(1); // in seconds
 	const [isLvlUpModalActive, setIsLvlUpModalActive] = useState(false);
+	const [isEditProfileModalActive, setIsEditProfileModalActive] = useState(
+		false
+	);
+	const [offlineUserPicture, setOfflineUserPicture] = useState(
+		"img/home-office.jpg"
+	);
+	const [offlineUserName, setOfflineUserName] = useState("Máquina de Vencer");
 
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -56,15 +69,13 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
 	// store user data
 	useEffect(() => {
-		// store information in cookies if user is not logged in
-		// TODO: add if statement to check if user is logged in.
-		//			 if not, store information with cookies, otherwise, store in db
+		// store information in cookies
 		Cookies.set("level", String(level), { expires: 365 * 20 });
 		Cookies.set("xp", String(currentExperience), { expires: 365 * 20 });
 		Cookies.set("challenges", String(challengesCompleted), {
 			expires: 365 * 20,
 		});
-		// store information on supabase. => how? need to serch
+		// TODO store information on supabase if user is logged in
 	}, [level, currentExperience, challengesCompleted]);
 
 	function levelUp() {
@@ -78,6 +89,25 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
 	function disableLvlUpModal() {
 		setIsLvlUpModalActive(false);
+	}
+
+	function enableEditProfileModal() {
+		setIsEditProfileModalActive(true);
+	}
+
+	function disableEditProfileModal() {
+		setIsEditProfileModalActive(false);
+	}
+
+	function changeProfile(name: string, picture: string) {
+		if (name) {
+			setOfflineUserName(name);
+			Cookies.set("offlineName", name, { expires: 365 * 20 });
+		}
+		if (picture) {
+			setOfflineUserPicture(picture);
+			Cookies.set("offlinePicture", picture, { expires: 365 * 20 });
+		}
 	}
 
 	function onChallengeCompleted() {
@@ -140,6 +170,12 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		isLoggedIn,
 		checkIfUserIsLogged,
 		setIsLoggedIn,
+		isEditProfileModalActive,
+		enableEditProfileModal,
+		disableEditProfileModal,
+		changeProfile,
+		offlineUserPicture,
+		offlineUserName,
 	};
 
 	return (

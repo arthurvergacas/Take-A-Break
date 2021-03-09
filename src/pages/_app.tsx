@@ -3,7 +3,7 @@ import { ChallengesProvider } from "../contexts/ChallengesContexts";
 import "../styles/global.css";
 import "../styles/menuStyles.css";
 
-function MoveIt({ Component, pageProps }) {
+function TakeABreak({ Component, pageProps }) {
 	return (
 		<ChallengesProvider>
 			<Component {...pageProps} />
@@ -11,4 +11,4 @@ function MoveIt({ Component, pageProps }) {
 	);
 }
 
-export default MoveIt;
+export default TakeABreak;
