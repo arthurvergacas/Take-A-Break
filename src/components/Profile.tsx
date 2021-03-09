@@ -8,7 +8,9 @@ interface ProfileProps {
 }
 
 export function Profile(props: ProfileProps) {
-	const { level, enableEditProfileModal } = useContext(ChallengesContext);
+	const { level, enableEditProfileModal, isLoggedIn } = useContext(
+		ChallengesContext
+	);
 
 	const [editButtonInactiveClass, setEditButtonInactiveClass] = useState({
 		display: "none",
@@ -36,12 +38,14 @@ export function Profile(props: ProfileProps) {
 			<div>
 				<div className={styles.nameContainer}>
 					<strong>{props.userName}</strong>
-					<img
-						src="icons/edit-button.svg"
-						alt="Editar Nome"
-						style={editButtonInactiveClass}
-						onClick={onEditButtonClick}
-					/>
+					{!isLoggedIn && (
+						<img
+							src="icons/edit-button.svg"
+							alt="Editar Nome"
+							style={editButtonInactiveClass}
+							onClick={onEditButtonClick}
+						/>
+					)}
 				</div>
 				<p>
 					<img
