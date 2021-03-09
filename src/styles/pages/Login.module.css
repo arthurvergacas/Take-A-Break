@@ -45,3 +45,9 @@
 .loginBox button:hover {
 	color: var(--red);
 }
+
+.loadingMsg {
+	font-size: 1.5rem;
+
+	margin-bottom: 1rem;
+}

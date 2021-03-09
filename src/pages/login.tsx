@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useState } from "react";
 
 import { GetServerSideProps } from "next";
 
@@ -9,10 +9,10 @@ import { getMainCookies } from "../utils/GetCookies";
 
 import styles from "../styles/pages/Login.module.css";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 import Head from "next/head";
 import Router from "next/router";
-
-import { ChallengesContext } from "../contexts/ChallengesContexts";
 
 interface GoogleOAuthResponse {
 	name: string;
@@ -20,6 +20,8 @@ interface GoogleOAuthResponse {
 }
 
 export default function Login(props) {
+	const [isLoading, setIsLoading] = useState(false);
+
 	function startOAuthFlow() {
 		const googleOauthEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
 
@@ -90,6 +92,7 @@ export default function Login(props) {
 		async function handleLogin() {
 			if (window.location.hash) {
 				//  TODO - add loading while fetching user data
+				setIsLoading(true);
 
 				//  - fetch user data
 				const userData = await makeOAuth2Request();
@@ -99,8 +102,6 @@ export default function Login(props) {
 				Cookies.set("userImg", String(userData.picture), { expires: 365 * 20 });
 
 				//  TODO - store the user in the db if he is not already
-
-				// remove loading indicators
 
 				// 	- redirect to main page
 				Router.push("/");
@@ -117,8 +118,15 @@ export default function Login(props) {
 			</Head>
 
 			<div className={styles.loginBox}>
-				{/* TODO: create a component starting here to do all the oauth logic */}
-				<button onClick={startOAuthFlow}>Entre com o Google</button>
+				{isLoading ? (
+					<>
+						<strong className={styles.loadingMsg}>Entrando</strong>
+						<CircularProgress color="inherit" />
+					</>
+				) : (
+					/* TODO: create a component to do all the oauth logic */
+					<button onClick={startOAuthFlow}>Entre com o Google</button>
+				)}
 			</div>
 		</div>
 	);
