@@ -39,6 +39,10 @@ interface ChallengesContextData {
 	changeProfile: (name: string, picture: string) => void;
 	offlineUserPicture: string;
 	offlineUserName: string;
+	isSetTimerModalActive: boolean;
+	enableSetTimerModal: () => void;
+	disableSetTimerModal: () => void;
+	setInitialTime: Function;
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
@@ -48,11 +52,13 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 	const [currentExperience, setCurrentExperience] = useState(0);
 	const [challengesCompleted, setChallengesCompleted] = useState(0);
 	const [activeChallenge, setActiveChallenge] = useState(null);
-	const [initialTime, setInitialTime] = useState(1); // in seconds
+
+	const [initialTime, setInitialTime] = useState(25 * 60); // in seconds
 	const [isLvlUpModalActive, setIsLvlUpModalActive] = useState(false);
 	const [isEditProfileModalActive, setIsEditProfileModalActive] = useState(
 		false
 	);
+	const [isSetTimerModalActive, setIsSetTimerModalActive] = useState(false);
 	const [offlineUserPicture, setOfflineUserPicture] = useState(
 		"img/home-office.jpg"
 	);
@@ -75,7 +81,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		Cookies.set("challenges", String(challengesCompleted), {
 			expires: 365 * 20,
 		});
-		// TODO store information on supabase if user is logged in
+		// TODO store information in supabase if user is logged in
 	}, [level, currentExperience, challengesCompleted]);
 
 	function levelUp() {
@@ -97,6 +103,14 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
 	function disableEditProfileModal() {
 		setIsEditProfileModalActive(false);
+	}
+
+	function enableSetTimerModal() {
+		setIsSetTimerModalActive(true);
+	}
+
+	function disableSetTimerModal() {
+		setIsSetTimerModalActive(false);
 	}
 
 	function changeProfile(name: string, picture: string) {
@@ -176,6 +190,10 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		changeProfile,
 		offlineUserPicture,
 		offlineUserName,
+		isSetTimerModalActive,
+		enableSetTimerModal,
+		disableSetTimerModal,
+		setInitialTime,
 	};
 
 	return (

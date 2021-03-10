@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Profile } from "../components/Profile";
 import { ExperienceBar } from "./../components/ExperienceBar";
@@ -18,6 +18,7 @@ import { Menu } from "../components/Menu";
 import { getMainCookies } from "../utils/GetCookies";
 import Cookies from "js-cookie";
 import { EditProfileModal } from "../components/EditProfileModal";
+import { SetTimerModal } from "../components/SetTimerModal";
 import { CustomTooltip } from "../components/CustomTooltip";
 
 interface HomeProps {
@@ -26,6 +27,7 @@ interface HomeProps {
 	challenges: number;
 	userName: string;
 	userImg: string;
+	preferredInitialTime: number;
 }
 
 export default function Home(props: HomeProps) {
@@ -37,12 +39,18 @@ export default function Home(props: HomeProps) {
 		offlineUserName,
 		offlineUserPicture,
 		isEditProfileModalActive,
+		isSetTimerModalActive,
+		setInitialTime,
 	} = useContext(ChallengesContext);
 
 	getMainCookies(props);
 
 	useEffect(() => {
 		checkIfUserIsLogged();
+
+		if (props.preferredInitialTime) {
+			setInitialTime(props.preferredInitialTime);
+		}
 	}, []);
 
 	function handleLogout() {
@@ -65,6 +73,9 @@ export default function Home(props: HomeProps) {
 				{/* modal shown when user is editing profile */}
 				{isEditProfileModalActive && <EditProfileModal />}
 
+				{/* modal shown when user wants to change the timer */}
+				{isSetTimerModalActive && <SetTimerModal />}
+
 				<Head>
 					<title>Início | Take A Break</title>
 				</Head>
@@ -79,12 +90,12 @@ export default function Home(props: HomeProps) {
 					) : (
 						<Link href="/login">
 							{/* BUG Next.js bug, Link cannot be the parent of 
-											a functional custom component. Issue #7915 -> vercel/next.js */}
+											a functional custom component. vercel/next.js -> Issue #7915 */}
 							<div>
 								<CustomTooltip
 									title="Entre para personalizar seu perfil!"
 									placement="bottom"
-									fontSize="0.8rem"
+									fontSize="0.85rem"
 								>
 									<button className={styles.loginLink}>Log in</button>
 								</CustomTooltip>
@@ -122,6 +133,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		userImg,
 		offlinePicture,
 		offlineName,
+		preferredInitialTime,
 	} = ctx.req.cookies;
 
 	return {
@@ -131,6 +143,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			challenges: Number(challenges),
 			userName: userName ?? offlineName ?? null,
 			userImg: userImg ?? offlinePicture ?? null,
+			preferredInitialTime: Number(preferredInitialTime),
 		},
 	};
 };

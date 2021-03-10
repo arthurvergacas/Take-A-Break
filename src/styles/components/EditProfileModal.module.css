@@ -1,30 +1,4 @@
-.overlay {
-	background: rgba(242, 243, 245, 0.8);
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	z-index: 1000;
-}
-
-.container {
-	background: var(--white);
-	width: 100%;
-	max-width: 400px;
-	padding: 2rem 3rem;
-	border-radius: 5px;
-	box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
-	text-align: center;
-	position: relative;
-}
-
-.container > header {
+header.header {
 	font-size: 2.25rem;
 	font-weight: 600;
 
@@ -118,7 +92,7 @@
 	margin-bottom: 1.8rem;
 }
 
-.container button:last-child {
+.saveBtn {
 	font-size: 1.3rem;
 	font-weight: 500;
 
@@ -130,21 +104,10 @@
 	border: none;
 
 	padding: 0.35rem 0.75rem;
+
+	transition: all 0.1s linear;
 }
 
-.container button:last-child:hover {
+.saveBtn:hover {
 	background: var(--dark-blue);
-}
-
-.container button:first-child {
-	position: absolute;
-	right: 0.5rem;
-	top: 0.6rem;
-	background: none;
-	border: none;
-	font-size: 0px;
-}
-
-.container button:first-child img {
-	width: 1rem;
 }

@@ -91,7 +91,7 @@ export default function Login(props) {
 		// 	- redirect to main page
 		async function handleLogin() {
 			if (window.location.hash) {
-				//  TODO - add loading while fetching user data
+				//  - add loading while fetching user data
 				setIsLoading(true);
 
 				//  - fetch user data

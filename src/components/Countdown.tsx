@@ -1,3 +1,4 @@
+import { Settings } from "@material-ui/icons";
 import { useState, useEffect, useContext } from "react";
 import { ChallengesContext } from "../contexts/ChallengesContexts";
 import styles from "../styles/components/Countdown.module.css";
@@ -6,15 +7,18 @@ import { Button } from "./Button";
 let countdownTimeout: NodeJS.Timeout;
 
 export function Countdown() {
-	const { startNewChallenge, activeChallenge, initialTime } = useContext(
-		ChallengesContext
-	);
+	const {
+		startNewChallenge,
+		activeChallenge,
+		initialTime,
+		enableSetTimerModal,
+	} = useContext(ChallengesContext);
 
 	const [time, setTime] = useState(initialTime); // time in seconds
 	const [isActive, setIsActive] = useState(false);
 	const [hasFinished, setHasFinished] = useState(false);
 
-	const minutes = (time / 60) | 0; // bitwise way to round numbers (top)
+	const minutes = (time / 60) | 0; // bitwise way to round numbers (top tier)
 	const seconds = time % 60;
 
 	function startCountdown() {
@@ -25,6 +29,10 @@ export function Countdown() {
 		clearTimeout(countdownTimeout);
 		setIsActive(false);
 		setTime(initialTime);
+	}
+
+	function handleSettingsClick() {
+		enableSetTimerModal();
 	}
 
 	useEffect(() => {
@@ -40,6 +48,10 @@ export function Countdown() {
 	}, [isActive, time]);
 
 	useEffect(() => {
+		setTime(initialTime);
+	}, [initialTime]);
+
+	useEffect(() => {
 		if (!activeChallenge) {
 			resetCountdown();
 			setHasFinished(false);
@@ -48,43 +60,51 @@ export function Countdown() {
 
 	return (
 		<>
-			<div className={styles.container}>
-				<div>
-					<span>
-						{
-							minutes.toLocaleString("en-US", {
-								minimumIntegerDigits: 2,
-								useGrouping: false,
-							})[0]
-						}
-					</span>
-					<span>
-						{
-							minutes.toLocaleString("en-US", {
-								minimumIntegerDigits: 2,
-								useGrouping: false,
-							})[1]
-						}
-					</span>
-				</div>
-				<span>:</span>
-				<div>
-					<span>
-						{
-							seconds.toLocaleString("en-US", {
-								minimumIntegerDigits: 2,
-								useGrouping: false,
-							})[0]
-						}
-					</span>
-					<span>
-						{
-							seconds.toLocaleString("en-US", {
-								minimumIntegerDigits: 2,
-								useGrouping: false,
-							})[1]
-						}
-					</span>
+			<div className={styles.mainContainer}>
+				<Settings
+					className={styles.settingsIcon}
+					onClick={handleSettingsClick}
+				/>
+				<div className={styles.clockContainer}>
+					<div>
+						<span>
+							{
+								minutes.toLocaleString("en-US", {
+									minimumIntegerDigits: 2,
+									useGrouping: false,
+								})[0]
+							}
+						</span>
+						<span>
+							{
+								minutes.toLocaleString("en-US", {
+									minimumIntegerDigits: 2,
+									useGrouping: false,
+								})[1]
+							}
+						</span>
+					</div>
+
+					<span>:</span>
+
+					<div>
+						<span>
+							{
+								seconds.toLocaleString("en-US", {
+									minimumIntegerDigits: 2,
+									useGrouping: false,
+								})[0]
+							}
+						</span>
+						<span>
+							{
+								seconds.toLocaleString("en-US", {
+									minimumIntegerDigits: 2,
+									useGrouping: false,
+								})[1]
+							}
+						</span>
+					</div>
 				</div>
 			</div>
 

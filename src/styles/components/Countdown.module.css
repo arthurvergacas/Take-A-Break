@@ -1,4 +1,4 @@
-.container {
+.clockContainer {
 	display: flex;
 	align-items: center;
 	font-family: Rajdhani;
@@ -6,7 +6,7 @@
 	color: var(--title);
 }
 
-.container > div {
+.clockContainer > div {
 	flex: 1;
 	display: flex;
 	align-items: center;
@@ -19,21 +19,35 @@
 	text-align: center;
 }
 
-.container > div span {
+.clockContainer > div span {
 	flex: 1;
 }
 
-.container > div span:first-child {
+.clockContainer > div span:first-child {
 	border-right: 1px solid #f0f1f3;
 }
 
-.container > div span:last-child {
+.clockContainer > div span:last-child {
 	border-left: 1px solid #f0f1f3;
 }
 
-.container > span {
+.clockContainer > span {
 	font-size: 6.25rem;
 	margin: 0 0.5rem;
+}
+
+.mainContainer > .settingsIcon {
+	margin-bottom: 0.5rem;
+	margin-left: 0.5rem;
+
+	transition: all 0.1s linear;
+
+	cursor: pointer;
+}
+
+.mainContainer > .settingsIcon:hover {
+	color: var(--red);
+	transform: rotate(15deg);
 }
 
 .cycleButton {

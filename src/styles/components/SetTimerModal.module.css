@@ -1,0 +1,31 @@
+.title {
+	font-size: 2rem;
+	font-weight: 600;
+
+	color: var(--blue);
+}
+
+.sliderContainer {
+	margin-top: 2.25rem;
+}
+
+.saveBtn {
+	font-size: 1.3rem;
+	font-weight: 500;
+
+	background: var(--blue);
+	color: var(--background);
+	border-radius: 5px;
+
+	min-width: 55px;
+	border: none;
+
+	margin-top: 1rem;
+	padding: 0.35rem 0.75rem;
+
+	transition: all 0.1s linear;
+}
+
+.saveBtn:hover {
+	background: var(--dark-blue);
+}
