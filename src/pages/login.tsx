@@ -34,7 +34,7 @@ export default function Login(props) {
 		// Parameters to pass to OAuth 2.0 endpoint.
 		const params = {
 			client_id: process.env.GOOGLE_CLIENT_ID,
-			redirect_uri: `${process.env.SITE_DOMAIN}/login`,
+			redirect_uri: `$https://{process.env.SITE_DOMAIN}/login`,
 			response_type: "token",
 			scope: "https://www.googleapis.com/auth/userinfo.profile",
 			state: "pass-through",
