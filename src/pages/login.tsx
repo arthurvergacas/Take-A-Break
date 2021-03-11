@@ -29,7 +29,7 @@ export default function Login(props) {
 		form.setAttribute("method", "GET"); // Send as a GET request.
 		form.setAttribute("action", googleOauthEndpoint);
 
-		console.log(`${process.env.SITE_DOMAIN}/login`);
+		console.log(`$https://{process.env.SITE_DOMAIN}/login`);
 
 		// Parameters to pass to OAuth 2.0 endpoint.
 		const params = {
