@@ -29,12 +29,10 @@ export default function Login(props) {
 		form.setAttribute("method", "GET"); // Send as a GET request.
 		form.setAttribute("action", googleOauthEndpoint);
 
-		console.log(`$https://{process.env.SITE_DOMAIN}/login`);
-
 		// Parameters to pass to OAuth 2.0 endpoint.
 		const params = {
 			client_id: process.env.GOOGLE_CLIENT_ID,
-			redirect_uri: `$https://{process.env.SITE_DOMAIN}/login`,
+			redirect_uri: `https://${process.env.SITE_DOMAIN}/login`,
 			response_type: "token",
 			scope: "https://www.googleapis.com/auth/userinfo.profile",
 			state: "pass-through",
