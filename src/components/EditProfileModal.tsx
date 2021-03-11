@@ -48,6 +48,7 @@ export function EditProfileModal() {
 				<input
 					type="text"
 					onChange={(event) => setNewName(event.target.value)}
+					maxLength={18}
 				/>
 			</div>
 
