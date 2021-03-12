@@ -101,7 +101,7 @@ function TakeABreak({ Component, pageProps }) {
 					content="favicons/browserconfig.xml"
 				/>
 
-				<meta property="og:url" content={window.location.href} />
+				<meta property="og:url" content="take-a-break.vercel.app" />
 				<meta property="og:type" content="website" />
 				<meta property="og:title" content="Take A Break" />
 				<meta name="twitter:card" content="summary" />
