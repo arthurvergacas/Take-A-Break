@@ -15,12 +15,6 @@ export function Menu(props: MenuProps) {
 				<a id="home" className="menu-item" href="/">
 					Home
 				</a>
-				<a id="about" className="menu-item" href="/about">
-					Profile
-				</a>
-				<a id="contact" className="menu-item" href="/contact">
-					About
-				</a>
 			</HamburgerMenu>
 
 			{props.children}
