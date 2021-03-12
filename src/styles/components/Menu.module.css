@@ -7,3 +7,19 @@
 		gap: 1rem;
 	}
 }
+
+.container a {
+	color: var(--background);
+
+	transition: all 0.1s linear;
+}
+
+.container a:hover {
+	color: var(--red);
+}
+
+.linkContainer {
+	width: fit-content;
+
+	margin-bottom: 2rem;
+}

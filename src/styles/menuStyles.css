@@ -48,13 +48,16 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-item-list {
 	color: var(--background);
 	padding: 0.8em;
+
+	display: flex;
+	flex-direction: column;
 }
 
 /* Individual item */
 .bm-item {
 	display: flex;
 	flex-direction: column;
-	margin: 1.5rem 0;
+	margin: 2.5rem 0;
 
 	transition: color 0.1s linear;
 }
