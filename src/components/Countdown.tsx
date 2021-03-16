@@ -22,7 +22,8 @@ export function Countdown() {
 	const minutes = (time / 60) | 0; // bitwise way to round numbers (top tier)
 	const seconds = time % 60;
 
-	const inactiveArrowsClass = isActive ? styles.inactiveArrows : "";
+	const inactiveArrowsClass =
+		isActive || hasFinished ? styles.inactiveArrows : "";
 
 	function startCountdown() {
 		setIsActive(true);
@@ -73,10 +74,6 @@ export function Countdown() {
 	return (
 		<>
 			<div className={styles.mainContainer}>
-				{/* <div className={styles.upArrowsRow}> */}
-
-				{/* </div> */}
-
 				<div className={styles.clockContainer}>
 					<div>
 						<img
