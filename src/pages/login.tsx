@@ -13,6 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Head from "next/head";
 import Router from "next/router";
+import { Menu } from "../components/Menu";
 
 interface GoogleOAuthResponse {
 	name: string;
@@ -112,23 +113,35 @@ export default function Login(props) {
 	}, []);
 
 	return (
-		<div className={styles.container}>
-			<Head>
-				<title>Login | Take A Break</title>
-			</Head>
+		<Menu>
+			<div className={styles.container}>
+				<Head>
+					<title>Login | Take A Break</title>
+				</Head>
 
-			<div className={styles.loginBox}>
-				{isLoading ? (
-					<>
-						<strong className={styles.loadingMsg}>Entrando</strong>
-						<CircularProgress color="inherit" />
-					</>
-				) : (
-					/* TODO: create a component to do all the oauth logic */
-					<button onClick={startOAuthFlow}>Entre com o Google</button>
-				)}
+				<h2 className={styles.loginTitle}>
+					<img src="img/chronometer.png" alt="Take A Break" /> Take A Break
+				</h2>
+
+				<div className={styles.loginBox}>
+					{isLoading ? (
+						<>
+							<strong className={styles.loadingMsg}>Entrando</strong>
+							<CircularProgress color="inherit" />
+						</>
+					) : (
+						<>
+							<button
+								onClick={startOAuthFlow}
+								className={styles.loginWithGoogleBtn}
+							>
+								Entre com o Google
+							</button>
+						</>
+					)}
+				</div>
 			</div>
-		</div>
+		</Menu>
 	);
 }
 
