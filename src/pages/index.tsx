@@ -18,7 +18,6 @@ import { Menu } from "../components/Menu";
 import { getMainCookies } from "../utils/GetCookies";
 import Cookies from "js-cookie";
 import { EditProfileModal } from "../components/EditProfileModal";
-import { SetTimerModal } from "../components/SetTimerModal";
 import { CustomTooltip } from "../components/CustomTooltip";
 
 interface HomeProps {
@@ -39,7 +38,6 @@ export default function Home(props: HomeProps) {
 		offlineUserName,
 		offlineUserPicture,
 		isEditProfileModalActive,
-		isSetTimerModalActive,
 		setInitialTime,
 	} = useContext(ChallengesContext);
 
@@ -72,9 +70,6 @@ export default function Home(props: HomeProps) {
 
 				{/* modal shown when user is editing profile */}
 				{isEditProfileModalActive && <EditProfileModal />}
-
-				{/* modal shown when user wants to change the timer */}
-				{isSetTimerModalActive && <SetTimerModal />}
 
 				<Head>
 					<title>Início | Take A Break</title>
