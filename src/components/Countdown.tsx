@@ -1,8 +1,9 @@
-import { Settings } from "@material-ui/icons";
 import { useState, useEffect, useContext } from "react";
 import { ChallengesContext } from "../contexts/ChallengesContexts";
 import styles from "../styles/components/Countdown.module.css";
 import { Button } from "./Button";
+
+import Cookies from "js-cookie";
 
 let countdownTimeout: NodeJS.Timeout;
 
@@ -11,7 +12,7 @@ export function Countdown() {
 		startNewChallenge,
 		activeChallenge,
 		initialTime,
-		enableSetTimerModal,
+		setInitialTime,
 	} = useContext(ChallengesContext);
 
 	const [time, setTime] = useState(initialTime); // time in seconds
@@ -20,6 +21,8 @@ export function Countdown() {
 
 	const minutes = (time / 60) | 0; // bitwise way to round numbers (top tier)
 	const seconds = time % 60;
+
+	const inactiveArrowsClass = isActive ? styles.inactiveArrows : "";
 
 	function startCountdown() {
 		setIsActive(true);
@@ -31,8 +34,17 @@ export function Countdown() {
 		setTime(initialTime);
 	}
 
-	function handleSettingsClick() {
-		enableSetTimerModal();
+	function changeTime(amount: number) {
+		const clamp = (num: number, min: number, max: number) =>
+			Math.min(Math.max(num, min), max);
+
+		if (initialTime >= 5 * 60 && initialTime <= 60 * 60) {
+			const newTime = clamp(initialTime + amount, 5 * 60, 60 * 60);
+			setInitialTime(newTime);
+			Cookies.set("preferredInitialTime", String(newTime), {
+				expires: 365 * 20,
+			});
+		}
 	}
 
 	useEffect(() => {
@@ -61,49 +73,80 @@ export function Countdown() {
 	return (
 		<>
 			<div className={styles.mainContainer}>
-				<Settings
-					className={styles.settingsIcon}
-					onClick={handleSettingsClick}
-				/>
+				{/* <div className={styles.upArrowsRow}> */}
+
+				{/* </div> */}
+
 				<div className={styles.clockContainer}>
 					<div>
-						<span>
-							{
-								minutes.toLocaleString("en-US", {
-									minimumIntegerDigits: 2,
-									useGrouping: false,
-								})[0]
-							}
-						</span>
-						<span>
-							{
-								minutes.toLocaleString("en-US", {
-									minimumIntegerDigits: 2,
-									useGrouping: false,
-								})[1]
-							}
-						</span>
+						<img
+							src="icons/triangular-filled-up-arrow.svg"
+							alt="Aumentar Minutos"
+							className={`${styles.arrow} ${inactiveArrowsClass}`}
+							onClick={() => changeTime(5 * 60)}
+						/>
+						<div>
+							<span>
+								{
+									minutes.toLocaleString("en-US", {
+										minimumIntegerDigits: 2,
+										useGrouping: false,
+									})[0]
+								}
+							</span>
+							<span>
+								{
+									minutes.toLocaleString("en-US", {
+										minimumIntegerDigits: 2,
+										useGrouping: false,
+									})[1]
+								}
+							</span>
+						</div>
+
+						<img
+							src="icons/triangular-filled-up-arrow.svg"
+							alt="Diminuir Minutos"
+							className={`${styles.arrow} ${styles.downArrow} ${inactiveArrowsClass}`}
+							onClick={() => changeTime(-5 * 60)}
+						/>
 					</div>
 
 					<span>:</span>
 
 					<div>
-						<span>
-							{
-								seconds.toLocaleString("en-US", {
-									minimumIntegerDigits: 2,
-									useGrouping: false,
-								})[0]
-							}
-						</span>
-						<span>
-							{
-								seconds.toLocaleString("en-US", {
-									minimumIntegerDigits: 2,
-									useGrouping: false,
-								})[1]
-							}
-						</span>
+						<img
+							src="icons/triangular-filled-up-arrow.svg"
+							alt="Aumentar Segundos"
+							className={`${styles.arrow} ${inactiveArrowsClass}`}
+							onClick={() => changeTime(5)}
+						/>
+
+						<div>
+							<span>
+								{
+									seconds.toLocaleString("en-US", {
+										minimumIntegerDigits: 2,
+										useGrouping: false,
+									})[0]
+								}
+							</span>
+							<span>
+								{
+									seconds.toLocaleString("en-US", {
+										minimumIntegerDigits: 2,
+										useGrouping: false,
+									})[1]
+								}
+							</span>
+						</div>
+
+						<img
+							src="icons/triangular-filled-up-arrow.svg"
+							alt="Diminuir Segundos"
+							className={`${styles.arrow} ${styles.downArrow} ${inactiveArrowsClass}`}
+							onClick={() => changeTime(-5)}
+						/>
 					</div>
 				</div>
 			</div>

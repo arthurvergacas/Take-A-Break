@@ -39,9 +39,6 @@ interface ChallengesContextData {
 	changeProfile: (name: string, picture: string) => void;
 	offlineUserPicture: string;
 	offlineUserName: string;
-	isSetTimerModalActive: boolean;
-	enableSetTimerModal: () => void;
-	disableSetTimerModal: () => void;
 	setInitialTime: Function;
 }
 
@@ -103,14 +100,6 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
 	function disableEditProfileModal() {
 		setIsEditProfileModalActive(false);
-	}
-
-	function enableSetTimerModal() {
-		setIsSetTimerModalActive(true);
-	}
-
-	function disableSetTimerModal() {
-		setIsSetTimerModalActive(false);
 	}
 
 	function changeProfile(name: string, picture: string) {
@@ -191,8 +180,6 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		offlineUserPicture,
 		offlineUserName,
 		isSetTimerModalActive,
-		enableSetTimerModal,
-		disableSetTimerModal,
 		setInitialTime,
 	};
 

@@ -1,16 +1,22 @@
 .clockContainer {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	font-family: Rajdhani;
 	font-weight: 600;
 	color: var(--title);
 }
 
 .clockContainer > div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.clockContainer > div > div {
 	flex: 1;
 	display: flex;
 	align-items: center;
-	justify-content: space-evenly;
 
 	background-color: var(--white);
 	box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
@@ -19,15 +25,16 @@
 	text-align: center;
 }
 
-.clockContainer > div span {
+.clockContainer > div > div span {
 	flex: 1;
+	width: 5.2rem;
 }
 
-.clockContainer > div span:first-child {
+.clockContainer > div > div span:first-child {
 	border-right: 1px solid #f0f1f3;
 }
 
-.clockContainer > div span:last-child {
+.clockContainer > div > div span:last-child {
 	border-left: 1px solid #f0f1f3;
 }
 
@@ -36,18 +43,41 @@
 	margin: 0 0.5rem;
 }
 
-.mainContainer > .settingsIcon {
-	margin-bottom: 0.5rem;
-	margin-left: 0.5rem;
+/* Arrows */
 
-	transition: all 0.1s linear;
+.arrow {
+	width: 4.5rem;
+	filter: invert(19%) sepia(11%) saturate(1920%) hue-rotate(182deg) brightness(90%) contrast(86%);
+
+	margin: -0.3rem;
 
 	cursor: pointer;
+
+	/* so it's not draggable */
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+
+	transition: all 0.1s linear;
 }
 
-.mainContainer > .settingsIcon:hover {
-	color: var(--red);
-	transform: rotate(15deg);
+.arrow:hover:not(.inactiveArrows) {
+	filter: invert(51%) sepia(75%) saturate(435%) hue-rotate(302deg) brightness(95%) contrast(96%);
+}
+
+.arrow:active:not(.inactiveArrows) {
+	filter: invert(36%) sepia(82%) saturate(933%) hue-rotate(313deg) brightness(90%) contrast(104%);
+}
+
+.downArrow {
+	transform: rotate(180deg);
+}
+
+.inactiveArrows {
+	opacity: 0.4;
+	cursor: default;
 }
 
 .cycleButton {
