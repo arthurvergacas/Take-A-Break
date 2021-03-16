@@ -139,9 +139,15 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		if (Notification.permission === "granted") {
 			new Notification("Novo desafio! 🏃‍♂️", {
 				body: `Valendo ${challenge.xp} xp!`,
-				// silent: true, // use this if you are developing it and tired of hearing the notification
+				silent: true,
 			});
 		}
+
+		// play notification sound
+		const notificationSound = new Audio("audio/notification-sound.mp3");
+
+		notificationSound.currentTime = 0;
+		notificationSound.play();
 	}
 
 	function resetChallenge() {
