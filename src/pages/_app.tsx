@@ -1,8 +1,17 @@
 import Head from "next/head";
+import dynamic from "next/dynamic";
 import { ChallengesProvider } from "../contexts/ChallengesContexts";
 
 import "../styles/global.css";
 import "../styles/menuStyles.css";
+import "../styles/nprogress.css";
+
+const TopProgressBar = dynamic(
+	() => {
+		return import("./../components/TopProgressBar");
+	},
+	{ ssr: false }
+);
 
 function TakeABreak({ Component, pageProps }) {
 	return (
@@ -108,7 +117,7 @@ function TakeABreak({ Component, pageProps }) {
 				<meta property="og:description" content="Home Office com mais saúde" />
 				<meta property="og:image" content="favicons/favicon-310.png" />
 			</Head>
-
+			<TopProgressBar />
 			<Component {...pageProps} />
 		</ChallengesProvider>
 	);
