@@ -47,7 +47,8 @@
 
 .arrow {
 	width: 4.5rem;
-	filter: invert(19%) sepia(11%) saturate(1920%) hue-rotate(182deg) brightness(90%) contrast(86%);
+	filter: invert(19%) sepia(11%) saturate(1920%) hue-rotate(182deg)
+		brightness(90%) contrast(86%);
 
 	margin: -0.3rem;
 
@@ -64,11 +65,13 @@
 }
 
 .arrow:hover:not(.inactiveArrows) {
-	filter: invert(51%) sepia(75%) saturate(435%) hue-rotate(302deg) brightness(95%) contrast(96%);
+	filter: invert(51%) sepia(75%) saturate(435%) hue-rotate(302deg)
+		brightness(95%) contrast(96%);
 }
 
 .arrow:active:not(.inactiveArrows) {
-	filter: invert(36%) sepia(82%) saturate(933%) hue-rotate(313deg) brightness(90%) contrast(104%);
+	filter: invert(36%) sepia(82%) saturate(933%) hue-rotate(313deg)
+		brightness(90%) contrast(104%);
 }
 
 .downArrow {
@@ -78,6 +81,11 @@
 .inactiveArrows {
 	opacity: 0.4;
 	cursor: default;
+}
+
+.cycleInProgressContainer {
+	display: flex;
+	gap: 1rem;
 }
 
 .cycleButton {
@@ -112,6 +120,16 @@
 .cycleButtonActive {
 	background: var(--white);
 	color: var(--title);
+}
+
+.pauseCycle {
+	background: var(--white);
+	color: var(--title);
+}
+
+.pauseCycle:not(:disabled):hover {
+	background: var(--dark-blue);
+	color: var(--white);
 }
 
 .cycleButtonActive:not(:disabled):hover {

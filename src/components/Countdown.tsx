@@ -18,6 +18,7 @@ export function Countdown() {
 	const [time, setTime] = useState(initialTime); // time in seconds
 	const [isActive, setIsActive] = useState(false);
 	const [hasFinished, setHasFinished] = useState(false);
+	const [isPaused, setIsPaused] = useState(false);
 
 	const minutes = (time / 60) | 0; // bitwise way to round numbers (top tier)
 	const seconds = time % 60;
@@ -32,6 +33,7 @@ export function Countdown() {
 	function resetCountdown() {
 		clearTimeout(countdownTimeout);
 		setIsActive(false);
+		setIsPaused(false);
 		setTime(initialTime);
 	}
 
@@ -48,8 +50,12 @@ export function Countdown() {
 		}
 	}
 
+	function togglePause() {
+		setIsPaused(!isPaused);
+	}
+
 	useEffect(() => {
-		if (isActive && time > 0) {
+		if (isActive && time > 0 && !isPaused) {
 			countdownTimeout = setTimeout(() => setTime(time - 1), 1000);
 		} else if (isActive && time === 0) {
 			setHasFinished(true);
@@ -57,8 +63,10 @@ export function Countdown() {
 
 			// start challenge
 			startNewChallenge();
+		} else if (isPaused) {
+			clearTimeout(countdownTimeout);
 		}
-	}, [isActive, time]);
+	}, [isActive, time, isPaused]);
 
 	useEffect(() => {
 		setTime(initialTime);
@@ -160,12 +168,21 @@ export function Countdown() {
 			) : (
 				<>
 					{isActive ? (
-						<Button
-							className={`${styles.cycleButton} ${styles.cycleButtonActive}`}
-							onClick={resetCountdown}
-						>
-							Abandonar ciclo
-						</Button>
+						<div className={styles.cycleInProgressContainer}>
+							<Button
+								className={`${styles.cycleButton} ${styles.cycleButtonActive}`}
+								onClick={resetCountdown}
+							>
+								Abandonar ciclo
+							</Button>
+
+							<Button
+								className={`${styles.cycleButton} ${styles.pauseCycle}`}
+								onClick={togglePause}
+							>
+								{isPaused ? "Retomar Ciclo" : "Pausar Ciclo"}
+							</Button>
+						</div>
 					) : (
 						<Button className={styles.cycleButton} onClick={startCountdown}>
 							Iniciar ciclo
