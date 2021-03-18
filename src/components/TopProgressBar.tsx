@@ -18,7 +18,7 @@ function load() {
 			Math.min(Math.max(num, min), max);
 
 		NProgress.configure({
-			minimum: clamp(Math.round(start * 100) / 100, 0.1, 0.4),
+			minimum: clamp(Math.round(start * 100) / 100, 0.1, 0.35),
 		});
 		NProgress.start();
 	}, delay); // only show progress bar if it takes longer than the delay

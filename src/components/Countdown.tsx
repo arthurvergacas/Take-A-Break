@@ -3,11 +3,16 @@ import { ChallengesContext } from "../contexts/ChallengesContexts";
 import styles from "../styles/components/Countdown.module.css";
 import { Button } from "./Button";
 
+import { useDidUpdateEffect } from "../custom-hooks/useDidUpdateEffect";
+
 import Cookies from "js-cookie";
 
-let countdownTimeout: NodeJS.Timeout;
+interface CountdownProps {
+	isCurrentlyActive: boolean;
+	currentEndTime: number;
+}
 
-export function Countdown() {
+export function Countdown(props: CountdownProps) {
 	const {
 		startNewChallenge,
 		activeChallenge,
@@ -19,6 +24,7 @@ export function Countdown() {
 	const [isActive, setIsActive] = useState(false);
 	const [hasFinished, setHasFinished] = useState(false);
 	const [isPaused, setIsPaused] = useState(false);
+	const [endTime, setEndTime] = useState(Math.floor(Date.now() / 1000) + time);
 
 	const minutes = (time / 60) | 0; // bitwise way to round numbers (top tier)
 	const seconds = time % 60;
@@ -26,14 +32,31 @@ export function Countdown() {
 	const inactiveArrowsClass =
 		isActive || hasFinished ? styles.inactiveArrows : "";
 
+	let countdownTimeout: NodeJS.Timeout;
+
 	function startCountdown() {
+		const newEndTime = Math.floor(Date.now() / 1000) + time;
+		setEndTime(newEndTime);
 		setIsActive(true);
+
+		Cookies.set("currentEndTime", String(newEndTime), {
+			expires: 365 * 20,
+		});
+
+		Cookies.set("isCurrentlyActive", String(true), {
+			expires: 365 * 20,
+		});
 	}
 
 	function resetCountdown() {
 		clearTimeout(countdownTimeout);
 		setIsActive(false);
 		setIsPaused(false);
+
+		Cookies.set("isCurrentlyActive", String(false), {
+			expires: 365 * 20,
+		});
+
 		setTime(initialTime);
 	}
 
@@ -51,20 +74,48 @@ export function Countdown() {
 	}
 
 	function togglePause() {
+		clearTimeout(countdownTimeout);
+
+		const newEndTime = Math.floor(Date.now() / 1000) + time;
+		setEndTime(newEndTime);
+
 		setIsPaused(!isPaused);
 	}
 
+	// BUG When the page reloads, the initial time is still displayed for 1 second,
+	// even though this is not the real current time
+
+	// BUG When the timer ends while the user is in another tab, the final timer is displayed as the initial time
+	useEffect(() => {
+		if (props.isCurrentlyActive) {
+			const newTime = props.currentEndTime - Math.floor(Date.now() / 1000);
+			if (newTime <= 0) {
+				setHasFinished(true);
+				startNewChallenge();
+			} else {
+				setIsActive(true);
+				setEndTime(props.currentEndTime);
+			}
+		}
+	}, []);
+
 	useEffect(() => {
 		if (isActive && time > 0 && !isPaused) {
-			countdownTimeout = setTimeout(() => setTime(time - 1), 1000);
+			countdownTimeout = setTimeout(() => {
+				const newTime = endTime - Math.floor(Date.now() / 1000);
+
+				setTime(newTime);
+			}, 1000);
 		} else if (isActive && time === 0) {
 			setHasFinished(true);
 			setIsActive(false);
 
+			Cookies.set("isCurrentlyActive", String(false), {
+				expires: 365 * 20,
+			});
+
 			// start challenge
 			startNewChallenge();
-		} else if (isPaused) {
-			clearTimeout(countdownTimeout);
 		}
 	}, [isActive, time, isPaused]);
 
@@ -72,7 +123,7 @@ export function Countdown() {
 		setTime(initialTime);
 	}, [initialTime]);
 
-	useEffect(() => {
+	useDidUpdateEffect(() => {
 		if (!activeChallenge) {
 			resetCountdown();
 			setHasFinished(false);
