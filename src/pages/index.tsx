@@ -27,6 +27,8 @@ interface HomeProps {
 	userName: string;
 	userImg: string;
 	preferredInitialTime: number;
+	isCurrentlyActive: boolean;
+	currentEndTime: number;
 }
 
 export default function Home(props: HomeProps) {
@@ -107,7 +109,11 @@ export default function Home(props: HomeProps) {
 							userImg={props.userImg ?? offlineUserPicture}
 						/>
 						<CompletedChallenges />
-						<Countdown />
+						<Countdown
+							currentEndTime={props.currentEndTime}
+							isCurrentlyActive={props.isCurrentlyActive}
+							firstInitialTime={props.preferredInitialTime}
+						/>
 					</div>
 					{/* div direita */}
 					<div>
@@ -129,6 +135,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		offlinePicture,
 		offlineName,
 		preferredInitialTime,
+		isCurrentlyActive,
+		currentEndTime,
 	} = ctx.req.cookies;
 
 	return {
@@ -139,6 +147,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			userName: userName ?? offlineName ?? null,
 			userImg: userImg ?? offlinePicture ?? null,
 			preferredInitialTime: Number(preferredInitialTime),
+			isCurrentlyActive: isCurrentlyActive == "true" ? true : false,
+			currentEndTime: Number(currentEndTime),
 		},
 	};
 };

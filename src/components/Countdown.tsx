@@ -3,11 +3,17 @@ import { ChallengesContext } from "../contexts/ChallengesContexts";
 import styles from "../styles/components/Countdown.module.css";
 import { Button } from "./Button";
 
+import { useDidUpdateEffect } from "../utils/CustomHooks";
+
 import Cookies from "js-cookie";
 
-let countdownTimeout: NodeJS.Timeout;
+interface CountdownProps {
+	isCurrentlyActive: boolean;
+	currentEndTime: number;
+	firstInitialTime: number;
+}
 
-export function Countdown() {
+export function Countdown(props: CountdownProps) {
 	const {
 		startNewChallenge,
 		activeChallenge,
@@ -15,25 +21,50 @@ export function Countdown() {
 		setInitialTime,
 	} = useContext(ChallengesContext);
 
-	const [time, setTime] = useState(initialTime); // time in seconds
+	const [time, setTime] = useState(props.firstInitialTime); // time in seconds
 	const [isActive, setIsActive] = useState(false);
 	const [hasFinished, setHasFinished] = useState(false);
 	const [isPaused, setIsPaused] = useState(false);
+	const [endTime, setEndTime] = useState(Math.floor(Date.now() / 1000) + time);
 
 	const minutes = (time / 60) | 0; // bitwise way to round numbers (top tier)
 	const seconds = time % 60;
 
-	const inactiveArrowsClass =
-		isActive || hasFinished ? styles.inactiveArrows : "";
+	const inactiveUpArrowsClass =
+		isActive || hasFinished || initialTime === 60 * 60
+			? styles.inactiveArrows
+			: "";
+
+	const inactiveBottomArrowsClass =
+		isActive || hasFinished || initialTime === 5 * 60
+			? styles.inactiveArrows
+			: "";
+
+	let countdownTimeout: NodeJS.Timeout;
 
 	function startCountdown() {
+		const newEndTime = Math.floor(Date.now() / 1000) + time;
+		setEndTime(newEndTime);
 		setIsActive(true);
+
+		Cookies.set("currentEndTime", String(newEndTime), {
+			expires: 365 * 20,
+		});
+
+		Cookies.set("isCurrentlyActive", String(true), {
+			expires: 365 * 20,
+		});
 	}
 
 	function resetCountdown() {
 		clearTimeout(countdownTimeout);
 		setIsActive(false);
 		setIsPaused(false);
+
+		Cookies.set("isCurrentlyActive", String(false), {
+			expires: 365 * 20,
+		});
+
 		setTime(initialTime);
 	}
 
@@ -51,20 +82,58 @@ export function Countdown() {
 	}
 
 	function togglePause() {
+		clearTimeout(countdownTimeout);
+
+		if (isPaused) {
+			const newEndTime = Math.floor(Date.now() / 1000) + time;
+			setEndTime(newEndTime);
+		}
+
 		setIsPaused(!isPaused);
 	}
 
 	useEffect(() => {
+		if (props.isCurrentlyActive) {
+			const clamp = (num: number, min: number, max: number) =>
+				Math.min(Math.max(num, min), max);
+
+			const newTime = props.currentEndTime - Math.floor(Date.now() / 1000);
+
+			if (newTime <= 0) {
+				setHasFinished(true);
+				startNewChallenge();
+				setIsActive(false);
+
+				// HACK Timeout to wait the page render the initial time and then update the timer
+				setTimeout(() => setTime(clamp(newTime, 0, Infinity)), 1);
+			} else {
+				setIsActive(true);
+				setEndTime(props.currentEndTime);
+
+				// HACK Timeout to wait the page render the initial time and then update the timer
+				setTimeout(() => setTime(clamp(newTime, 0, Infinity)), 1);
+			}
+		}
+	}, []);
+
+	useEffect(() => {
 		if (isActive && time > 0 && !isPaused) {
-			countdownTimeout = setTimeout(() => setTime(time - 1), 1000);
-		} else if (isActive && time === 0) {
+			countdownTimeout = setTimeout(() => {
+				const newTime = endTime - Math.floor(Date.now() / 1000);
+
+				setTime(newTime);
+			}, 1000);
+		} else if (isActive && time <= 0) {
+			setTime(0);
 			setHasFinished(true);
 			setIsActive(false);
 
+			Cookies.set("isCurrentlyActive", String(false), {
+				expires: 365 * 20,
+			});
+
 			// start challenge
 			startNewChallenge();
-		} else if (isPaused) {
-			clearTimeout(countdownTimeout);
 		}
 	}, [isActive, time, isPaused]);
 
@@ -72,7 +141,7 @@ export function Countdown() {
 		setTime(initialTime);
 	}, [initialTime]);
 
-	useEffect(() => {
+	useDidUpdateEffect(() => {
 		if (!activeChallenge) {
 			resetCountdown();
 			setHasFinished(false);
@@ -87,7 +156,7 @@ export function Countdown() {
 						<img
 							src="icons/triangular-filled-up-arrow.svg"
 							alt="Aumentar Minutos"
-							className={`${styles.arrow} ${inactiveArrowsClass}`}
+							className={`${styles.arrow} ${inactiveUpArrowsClass}`}
 							onClick={() => changeTime(5 * 60)}
 						/>
 						<div>
@@ -112,7 +181,7 @@ export function Countdown() {
 						<img
 							src="icons/triangular-filled-up-arrow.svg"
 							alt="Diminuir Minutos"
-							className={`${styles.arrow} ${styles.downArrow} ${inactiveArrowsClass}`}
+							className={`${styles.arrow} ${styles.downArrow} ${inactiveBottomArrowsClass}`}
 							onClick={() => changeTime(-5 * 60)}
 						/>
 					</div>
@@ -123,8 +192,8 @@ export function Countdown() {
 						<img
 							src="icons/triangular-filled-up-arrow.svg"
 							alt="Aumentar Segundos"
-							className={`${styles.arrow} ${inactiveArrowsClass}`}
-							onClick={() => changeTime(5)}
+							className={`${styles.arrow} ${inactiveUpArrowsClass}`}
+							onClick={() => changeTime(10)}
 						/>
 
 						<div>
@@ -149,8 +218,8 @@ export function Countdown() {
 						<img
 							src="icons/triangular-filled-up-arrow.svg"
 							alt="Diminuir Segundos"
-							className={`${styles.arrow} ${styles.downArrow} ${inactiveArrowsClass}`}
-							onClick={() => changeTime(-5)}
+							className={`${styles.arrow} ${styles.downArrow} ${inactiveBottomArrowsClass}`}
+							onClick={() => changeTime(-10)}
 						/>
 					</div>
 				</div>
