@@ -18,14 +18,39 @@ export default function About() {
 
 						<p>
 							Aplicação desenvolvida durante a{" "}
-							<a href="https://nextlevelweek.com/">Next Level Week</a>,
-							oferecida pela <a href="https://rocketseat.com.br/">Rocketseat</a>
+							<a
+								href="https://nextlevelweek.com/"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Next Level Week
+							</a>
+							, oferecida pela{" "}
+							<a
+								href="https://rocketseat.com.br/"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Rocketseat
+							</a>
 							<br />
 							Ícones disponibilizados por{" "}
-							<a href="https://www.flaticon.com/">Flaticon</a>
+							<a
+								href="https://www.flaticon.com/"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Flaticon
+							</a>
 							<br />
 							<br />© 2021 - 2021{" "}
-							<a href="https://github.com/arthurvergacas">Arthur Vergaças</a>
+							<a
+								href="https://github.com/arthurvergacas"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Arthur Vergaças
+							</a>
 						</p>
 					</div>
 				</div>
