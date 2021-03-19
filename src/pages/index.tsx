@@ -112,6 +112,7 @@ export default function Home(props: HomeProps) {
 						<Countdown
 							currentEndTime={props.currentEndTime}
 							isCurrentlyActive={props.isCurrentlyActive}
+							firstInitialTime={props.preferredInitialTime}
 						/>
 					</div>
 					{/* div direita */}

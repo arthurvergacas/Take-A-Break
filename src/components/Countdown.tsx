@@ -3,13 +3,14 @@ import { ChallengesContext } from "../contexts/ChallengesContexts";
 import styles from "../styles/components/Countdown.module.css";
 import { Button } from "./Button";
 
-import { useDidUpdateEffect } from "../custom-hooks/useDidUpdateEffect";
+import { useDidUpdateEffect } from "../utils/CustomHooks";
 
 import Cookies from "js-cookie";
 
 interface CountdownProps {
 	isCurrentlyActive: boolean;
 	currentEndTime: number;
+	firstInitialTime: number;
 }
 
 export function Countdown(props: CountdownProps) {
@@ -20,7 +21,7 @@ export function Countdown(props: CountdownProps) {
 		setInitialTime,
 	} = useContext(ChallengesContext);
 
-	const [time, setTime] = useState(initialTime); // time in seconds
+	const [time, setTime] = useState(props.firstInitialTime); // time in seconds
 	const [isActive, setIsActive] = useState(false);
 	const [hasFinished, setHasFinished] = useState(false);
 	const [isPaused, setIsPaused] = useState(false);
@@ -29,8 +30,15 @@ export function Countdown(props: CountdownProps) {
 	const minutes = (time / 60) | 0; // bitwise way to round numbers (top tier)
 	const seconds = time % 60;
 
-	const inactiveArrowsClass =
-		isActive || hasFinished ? styles.inactiveArrows : "";
+	const inactiveUpArrowsClass =
+		isActive || hasFinished || initialTime === 60 * 60
+			? styles.inactiveArrows
+			: "";
+
+	const inactiveBottomArrowsClass =
+		isActive || hasFinished || initialTime === 5 * 60
+			? styles.inactiveArrows
+			: "";
 
 	let countdownTimeout: NodeJS.Timeout;
 
@@ -76,25 +84,34 @@ export function Countdown(props: CountdownProps) {
 	function togglePause() {
 		clearTimeout(countdownTimeout);
 
-		const newEndTime = Math.floor(Date.now() / 1000) + time;
-		setEndTime(newEndTime);
+		if (isPaused) {
+			const newEndTime = Math.floor(Date.now() / 1000) + time;
+			setEndTime(newEndTime);
+		}
 
 		setIsPaused(!isPaused);
 	}
 
-	// BUG When the page reloads, the initial time is still displayed for 1 second,
-	// even though this is not the real current time
-
-	// BUG When the timer ends while the user is in another tab, the final timer is displayed as the initial time
 	useEffect(() => {
 		if (props.isCurrentlyActive) {
+			const clamp = (num: number, min: number, max: number) =>
+				Math.min(Math.max(num, min), max);
+
 			const newTime = props.currentEndTime - Math.floor(Date.now() / 1000);
+
 			if (newTime <= 0) {
 				setHasFinished(true);
 				startNewChallenge();
+				setIsActive(false);
+
+				// HACK Timeout to wait the page render the initial time and then update the timer
+				setTimeout(() => setTime(clamp(newTime, 0, Infinity)), 1);
 			} else {
 				setIsActive(true);
 				setEndTime(props.currentEndTime);
+
+				// HACK Timeout to wait the page render the initial time and then update the timer
+				setTimeout(() => setTime(clamp(newTime, 0, Infinity)), 1);
 			}
 		}
 	}, []);
@@ -106,7 +123,8 @@ export function Countdown(props: CountdownProps) {
 
 				setTime(newTime);
 			}, 1000);
-		} else if (isActive && time === 0) {
+		} else if (isActive && time <= 0) {
+			setTime(0);
 			setHasFinished(true);
 			setIsActive(false);
 
@@ -138,7 +156,7 @@ export function Countdown(props: CountdownProps) {
 						<img
 							src="icons/triangular-filled-up-arrow.svg"
 							alt="Aumentar Minutos"
-							className={`${styles.arrow} ${inactiveArrowsClass}`}
+							className={`${styles.arrow} ${inactiveUpArrowsClass}`}
 							onClick={() => changeTime(5 * 60)}
 						/>
 						<div>
@@ -163,7 +181,7 @@ export function Countdown(props: CountdownProps) {
 						<img
 							src="icons/triangular-filled-up-arrow.svg"
 							alt="Diminuir Minutos"
-							className={`${styles.arrow} ${styles.downArrow} ${inactiveArrowsClass}`}
+							className={`${styles.arrow} ${styles.downArrow} ${inactiveBottomArrowsClass}`}
 							onClick={() => changeTime(-5 * 60)}
 						/>
 					</div>
@@ -174,8 +192,8 @@ export function Countdown(props: CountdownProps) {
 						<img
 							src="icons/triangular-filled-up-arrow.svg"
 							alt="Aumentar Segundos"
-							className={`${styles.arrow} ${inactiveArrowsClass}`}
-							onClick={() => changeTime(5)}
+							className={`${styles.arrow} ${inactiveUpArrowsClass}`}
+							onClick={() => changeTime(10)}
 						/>
 
 						<div>
@@ -200,8 +218,8 @@ export function Countdown(props: CountdownProps) {
 						<img
 							src="icons/triangular-filled-up-arrow.svg"
 							alt="Diminuir Segundos"
-							className={`${styles.arrow} ${styles.downArrow} ${inactiveArrowsClass}`}
-							onClick={() => changeTime(-5)}
+							className={`${styles.arrow} ${styles.downArrow} ${inactiveBottomArrowsClass}`}
+							onClick={() => changeTime(-10)}
 						/>
 					</div>
 				</div>
