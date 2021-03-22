@@ -126,10 +126,6 @@ export function Countdown(props: CountdownProps) {
 				startNewChallenge();
 				setIsActive(false);
 
-				Cookies.set("isCurrentlyPaused", String(false), {
-					expires: 365 * 20,
-				});
-
 				// HACK Timeout to wait the page render the initial time and then update the timer
 				setTimeout(() => setTime(clamp(updatedTime, 0, Infinity)), 1);
 			} else if (props.isCurrentlyPaused) {
