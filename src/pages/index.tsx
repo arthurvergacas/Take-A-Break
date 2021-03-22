@@ -28,6 +28,8 @@ interface HomeProps {
 	preferredInitialTime: number;
 	isCurrentlyActive: boolean;
 	currentEndTime: number;
+	isCurrentlyPaused: boolean;
+	currentTimeRemaining: number;
 }
 
 export default function Home(props: HomeProps) {
@@ -112,6 +114,8 @@ export default function Home(props: HomeProps) {
 							currentEndTime={props.currentEndTime}
 							isCurrentlyActive={props.isCurrentlyActive}
 							firstInitialTime={props.preferredInitialTime}
+							isCurrentlyPaused={props.isCurrentlyPaused}
+							currentTimeRemaining={props.currentTimeRemaining}
 						/>
 					</div>
 					{/* div direita */}
@@ -136,6 +140,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		preferredInitialTime,
 		isCurrentlyActive,
 		currentEndTime,
+		isCurrentlyPaused,
+		currentTimeRemaining,
 	} = ctx.req.cookies;
 
 	return {
@@ -148,6 +154,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			preferredInitialTime: Number(preferredInitialTime),
 			isCurrentlyActive: isCurrentlyActive == "true" ? true : false,
 			currentEndTime: Number(currentEndTime),
+			isCurrentlyPaused: isCurrentlyPaused == "true" ? true : false,
+			currentTimeRemaining: Number(currentTimeRemaining),
 		},
 	};
 };

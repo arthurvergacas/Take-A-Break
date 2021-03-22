@@ -11,6 +11,8 @@ interface CountdownProps {
 	isCurrentlyActive: boolean;
 	currentEndTime: number;
 	firstInitialTime: number;
+	isCurrentlyPaused: boolean;
+	currentTimeRemaining: number;
 }
 
 export function Countdown(props: CountdownProps) {
@@ -54,6 +56,10 @@ export function Countdown(props: CountdownProps) {
 		Cookies.set("isCurrentlyActive", String(true), {
 			expires: 365 * 20,
 		});
+
+		Cookies.set("isCurrentlyPaused", String(false), {
+			expires: 365 * 20,
+		});
 	}
 
 	function resetCountdown() {
@@ -62,6 +68,10 @@ export function Countdown(props: CountdownProps) {
 		setIsPaused(false);
 
 		Cookies.set("isCurrentlyActive", String(false), {
+			expires: 365 * 20,
+		});
+
+		Cookies.set("isCurrentlyPaused", String(false), {
 			expires: 365 * 20,
 		});
 
@@ -84,12 +94,24 @@ export function Countdown(props: CountdownProps) {
 	function togglePause() {
 		clearTimeout(countdownTimeout);
 
+		const newEndTime = Math.floor(Date.now() / 1000) + time;
+
 		if (isPaused) {
-			const newEndTime = Math.floor(Date.now() / 1000) + time;
 			setEndTime(newEndTime);
 		}
 
+		Cookies.set("currentEndTime", String(newEndTime), {
+			expires: 365 * 20,
+		});
+
+		Cookies.set("currentTimeRemaining", String(time), {
+			expires: 365 * 20,
+		});
+
 		setIsPaused(!isPaused);
+		Cookies.set("isCurrentlyPaused", String(!isPaused), {
+			expires: 365 * 20,
+		});
 	}
 
 	useEffect(() => {
@@ -97,21 +119,37 @@ export function Countdown(props: CountdownProps) {
 			const clamp = (num: number, min: number, max: number) =>
 				Math.min(Math.max(num, min), max);
 
-			const newTime = props.currentEndTime - Math.floor(Date.now() / 1000);
+			const updatedTime = props.currentEndTime - Math.floor(Date.now() / 1000);
 
-			if (newTime <= 0) {
+			if (updatedTime <= 0) {
 				setHasFinished(true);
 				startNewChallenge();
 				setIsActive(false);
 
+				Cookies.set("isCurrentlyPaused", String(false), {
+					expires: 365 * 20,
+				});
+
 				// HACK Timeout to wait the page render the initial time and then update the timer
-				setTimeout(() => setTime(clamp(newTime, 0, Infinity)), 1);
+				setTimeout(() => setTime(clamp(updatedTime, 0, Infinity)), 1);
+			} else if (props.isCurrentlyPaused) {
+				const newEndTimePaused =
+					Math.floor(Date.now() / 1000) + props.currentTimeRemaining;
+				// HACK Timeout to wait the page render the initial time and then update the timer
+				setTimeout(
+					() => setTime(clamp(props.currentTimeRemaining, 0, Infinity)),
+					1
+				);
+
+				setIsActive(true);
+				setEndTime(newEndTimePaused);
+				setIsPaused(props.isCurrentlyPaused);
 			} else {
 				setIsActive(true);
 				setEndTime(props.currentEndTime);
 
 				// HACK Timeout to wait the page render the initial time and then update the timer
-				setTimeout(() => setTime(clamp(newTime, 0, Infinity)), 1);
+				setTimeout(() => setTime(clamp(updatedTime, 0, Infinity)), 1);
 			}
 		}
 	}, []);
@@ -129,6 +167,9 @@ export function Countdown(props: CountdownProps) {
 			setIsActive(false);
 
 			Cookies.set("isCurrentlyActive", String(false), {
+				expires: 365 * 20,
+			});
+			Cookies.set("isCurrentlyPaused", String(false), {
 				expires: 365 * 20,
 			});
 
