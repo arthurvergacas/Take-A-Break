@@ -1,9 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import { ChallengesContext } from "../contexts/ChallengesContexts";
-import styles from "../styles/components/Countdown.module.css";
-import { Button } from "./Button";
 
+import styles from "../styles/components/Countdown.module.css";
+
+import { Button } from "./Button";
 import { useDidUpdateEffect } from "../utils/CustomHooks";
+
+import Head from "next/head";
 
 import Cookies from "js-cookie";
 
@@ -43,6 +46,19 @@ export function Countdown(props: CountdownProps) {
 			: "";
 
 	let countdownTimeout: NodeJS.Timeout;
+
+	function timeToString(time: number): string {
+		const minutes = (time / 60) | 0;
+		const seconds = time % 60;
+
+		return `${minutes.toLocaleString("en-US", {
+			minimumIntegerDigits: 2,
+			useGrouping: false,
+		})}:${seconds.toLocaleString("en-US", {
+			minimumIntegerDigits: 2,
+			useGrouping: false,
+		})}`;
+	}
 
 	function startCountdown() {
 		const newEndTime = Math.floor(Date.now() / 1000) + time;
@@ -187,6 +203,11 @@ export function Countdown(props: CountdownProps) {
 
 	return (
 		<>
+			{isActive && (
+				<Head>
+					<title>{`${timeToString(time)} | Take A Break`}</title>
+				</Head>
+			)}
 			<div className={styles.mainContainer}>
 				<div className={styles.clockContainer}>
 					<div>

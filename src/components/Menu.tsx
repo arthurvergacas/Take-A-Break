@@ -14,7 +14,7 @@ export function Menu(props: MenuProps) {
 	const homeDiv = useRef(null);
 	const aboutDiv = useRef(null);
 
-	const transitionTime = 200;
+	const transitionTime = 225;
 
 	function onLocationChange() {
 		// HARDCODED The '-5' is there to make the transition smoother and so the moment when the
@@ -67,7 +67,9 @@ export function Menu(props: MenuProps) {
 							<img src="icons/home.svg" alt="Home" />
 							<div
 								className={`${location == "/" ? styles.activeLink : ""}`}
-								style={{ transition: `transform ${transitionTime}ms ease-out` }}
+								style={{
+									transition: `transform ${transitionTime}ms ease-in-out`,
+								}}
 								ref={homeDiv}
 							></div>
 						</a>
@@ -78,7 +80,9 @@ export function Menu(props: MenuProps) {
 							<img src="icons/info.svg" alt="Sobre" />
 							<div
 								className={`${location == "/about" ? styles.activeLink : ""}`}
-								style={{ transition: `transform ${transitionTime}ms ease-out` }}
+								style={{
+									transition: `transform ${transitionTime}ms ease-in-out`,
+								}}
 								ref={aboutDiv}
 							></div>
 						</a>
