@@ -14,7 +14,6 @@ import { GetServerSideProps } from "next";
 
 import { ChallengesContext } from "../contexts/ChallengesContexts";
 import { LevelUpModal } from "../components/LevelUpModal";
-import { Menu } from "../components/Menu";
 import { getMainCookies } from "../utils/GetCookies";
 import Cookies from "js-cookie";
 import { EditProfileModal } from "../components/EditProfileModal";
@@ -65,7 +64,7 @@ export default function Home(props: HomeProps) {
 	}
 
 	return (
-		<Menu>
+		<>
 			<div className={styles.container}>
 				{/* modal shown when leveling up */}
 				{isLvlUpModalActive && <LevelUpModal />}
@@ -121,7 +120,7 @@ export default function Home(props: HomeProps) {
 					</div>
 				</section>
 			</div>
-		</Menu>
+		</>
 	);
 }
 

@@ -30,9 +30,15 @@
 	}
 }
 
+html {
+	height: 100%;
+}
+
 body {
 	background-color: var(--background);
 	color: var(--text);
+
+	height: fit-content;
 }
 
 body,

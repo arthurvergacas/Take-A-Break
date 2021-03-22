@@ -13,7 +13,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Head from "next/head";
 import Router from "next/router";
-import { Menu } from "../components/Menu";
 
 interface GoogleOAuthResponse {
 	name: string;
@@ -113,7 +112,7 @@ export default function Login(props) {
 	}, []);
 
 	return (
-		<Menu>
+		<>
 			<div className={styles.container}>
 				<Head>
 					<title>Login | Take A Break</title>
@@ -141,7 +140,7 @@ export default function Login(props) {
 					)}
 				</div>
 			</div>
-		</Menu>
+		</>
 	);
 }
 

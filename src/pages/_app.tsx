@@ -5,6 +5,7 @@ import { ChallengesProvider } from "../contexts/ChallengesContexts";
 import "../styles/global.css";
 import "../styles/menuStyles.css";
 import "../styles/nprogress.css";
+import { Menu } from "../components/Menu";
 
 const TopProgressBar = dynamic(
 	() => {
@@ -118,7 +119,9 @@ function TakeABreak({ Component, pageProps }) {
 				<meta property="og:image" content="favicons/favicon-310.png" />
 			</Head>
 			<TopProgressBar />
-			<Component {...pageProps} />
+			<Menu>
+				<Component {...pageProps} />
+			</Menu>
 		</ChallengesProvider>
 	);
 }

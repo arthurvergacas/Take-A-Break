@@ -1,8 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import styles from "../styles/components/Menu.module.css";
 
-import { slide as HamburgerMenu } from "react-burger-menu";
 import Link from "next/link";
 
 interface MenuProps {
@@ -10,21 +9,36 @@ interface MenuProps {
 }
 
 export function Menu(props: MenuProps) {
+	const [location, setLocation] = useState("");
+
+	if (typeof window !== "undefined") {
+		useEffect(() => {
+			setLocation(window.location.pathname);
+		}, [window.location.pathname]);
+	}
 	return (
 		<div className={styles.container}>
-			<HamburgerMenu width={"15rem"}>
-				<Link href="/">
-					<a id="home" className={`menu-item ${styles.linkContainer}`}>
-						Home
-					</a>
-				</Link>
+			<div className={styles.menuBox}>
+				<img src="img/chronometer.png" alt="Take A Break" />
 
-				<Link href="/about">
-					<a id="about" className={`menu-item ${styles.linkContainer}`}>
-						Sobre
-					</a>
-				</Link>
-			</HamburgerMenu>
+				<div className={styles.links}>
+					<Link href="/">
+						<a>
+							<img src="icons/home.svg" alt="Home" />
+							<div className={location == "/" ? styles.activeLink : ""}></div>
+						</a>
+					</Link>
+
+					<Link href="/about">
+						<a>
+							<img src="icons/info.svg" alt="Sobre" />
+							<div
+								className={location == "/about" ? styles.activeLink : ""}
+							></div>
+						</a>
+					</Link>
+				</div>
+			</div>
 
 			{props.children}
 		</div>

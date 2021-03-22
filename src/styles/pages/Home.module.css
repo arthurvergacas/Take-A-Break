@@ -1,9 +1,9 @@
 .container {
-	height: 100vh;
+	height: 100%;
 	max-width: 992px;
 	margin: 0 auto;
-	padding: 2.5rem 0.5rem 2.5rem 2rem;
-	
+	padding: 2.5rem 0.5rem 0rem 2rem;
+
 	display: flex;
 	flex-direction: column;
 }
@@ -22,7 +22,6 @@
 	gap: 6.25rem;
 	align-content: center;
 	padding-bottom: 2rem;
-
 }
 
 .loginLink {
@@ -76,4 +75,3 @@
 .logoutLink:hover {
 	background: var(--dark-blue);
 }
-
