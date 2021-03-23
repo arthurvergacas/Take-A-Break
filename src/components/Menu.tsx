@@ -20,10 +20,10 @@ export function Menu(props: MenuProps) {
 		// HARDCODED The '-5' is there to make the transition smoother and so the moment when the
 		//           definitive div appears is not visible
 
-		// Also worth noting that getBoundingClientRect().x is used, even though I'm moving the div in the Y-axis direction
+		// Also worth noting that getBoundingClientRect().x is used, even though I'm moving the div in the Y-axis direction 🤷‍♂️
 
 		// going from home to about
-		if (location === "/") {
+		if (window.location.pathname === "/about" && location == "/") {
 			homeDiv.current.style.transform = `translateY(${
 				aboutDiv.current.getBoundingClientRect().x - 5
 			}px)`;
@@ -34,7 +34,7 @@ export function Menu(props: MenuProps) {
 			}, transitionTime);
 		}
 		// going from about to home
-		else if (location === "/about") {
+		else if (window.location.pathname === "/" && location == "/about") {
 			aboutDiv.current.style.transform = `translateY(-${
 				homeDiv.current.getBoundingClientRect().x - 5
 			}px)`;
@@ -43,6 +43,10 @@ export function Menu(props: MenuProps) {
 				setLocation(window.location.pathname);
 				aboutDiv.current.style.transform = "";
 			}, transitionTime);
+		}
+		// going out of the links in the navbar
+		else {
+			setLocation(window.location.pathname);
 		}
 	}
 
@@ -58,35 +62,39 @@ export function Menu(props: MenuProps) {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.menuBox}>
-				<img src="img/chronometer.png" alt="Take A Break" />
-
-				<div className={styles.links}>
+			<div className={styles.menuContainer}>
+				<div className={styles.menuBox}>
 					<Link href="/">
-						<a>
-							<img src="icons/home.svg" alt="Home" />
-							<div
-								className={`${location == "/" ? styles.activeLink : ""}`}
-								style={{
-									transition: `transform ${transitionTime}ms ease-in-out`,
-								}}
-								ref={homeDiv}
-							></div>
-						</a>
+						<img src="img/chronometer.png" alt="Take A Break" />
 					</Link>
 
-					<Link href="/about">
-						<a>
-							<img src="icons/info.svg" alt="Sobre" />
-							<div
-								className={`${location == "/about" ? styles.activeLink : ""}`}
-								style={{
-									transition: `transform ${transitionTime}ms ease-in-out`,
-								}}
-								ref={aboutDiv}
-							></div>
-						</a>
-					</Link>
+					<div className={styles.links}>
+						<Link href="/">
+							<a>
+								<img src="icons/home.svg" alt="Home" />
+								<div
+									className={`${location == "/" ? styles.activeLink : ""}`}
+									style={{
+										transition: `transform ${transitionTime}ms ease-in-out`,
+									}}
+									ref={homeDiv}
+								></div>
+							</a>
+						</Link>
+
+						<Link href="/about">
+							<a>
+								<img src="icons/info.svg" alt="Sobre" />
+								<div
+									className={`${location == "/about" ? styles.activeLink : ""}`}
+									style={{
+										transition: `transform ${transitionTime}ms ease-in-out`,
+									}}
+									ref={aboutDiv}
+								></div>
+							</a>
+						</Link>
+					</div>
 				</div>
 			</div>
 

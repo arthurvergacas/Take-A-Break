@@ -41,7 +41,7 @@ export default function About() {
 							Flaticon
 						</a>
 						<br />
-						<br />© 2021 - 2021{" "}
+						<br />© 2021 - {new Date().getFullYear()}{" "}
 						<a
 							href="https://github.com/arthurvergacas"
 							target="_blank"
