@@ -140,18 +140,21 @@ export function Countdown(props: CountdownProps) {
 			if (updatedTime < -10) {
 				// shut the timer off if the user stays away for more the than 10 seconds
 				setIsActive(false);
+				Cookies.set("isCurrentlyActive", String(false), {
+					expires: 365 * 20,
+				});
 			} else {
 				if (updatedTime <= 0) {
 					setHasFinished(true);
 					startNewChallenge();
 					setIsActive(false);
 
-					// HACK Timeout to wait the page render the initial time and then update the timer
+					// HACK Timeout to wait the page render the first time and then update the timer
 					setTimeout(() => setTime(clamp(updatedTime, 0, Infinity)), 1);
 				} else if (props.isCurrentlyPaused) {
 					const newEndTimePaused =
 						Math.floor(Date.now() / 1000) + props.currentTimeRemaining;
-					// HACK Timeout to wait the page render the initial time and then update the timer
+					// HACK Timeout to wait the page render the first time and then update the timer
 					setTimeout(
 						() => setTime(clamp(props.currentTimeRemaining, 0, Infinity)),
 						1
@@ -164,7 +167,7 @@ export function Countdown(props: CountdownProps) {
 					setIsActive(true);
 					setEndTime(props.currentEndTime);
 
-					// HACK Timeout to wait the page render the initial time and then update the timer
+					// HACK Timeout to wait the page render the first time and then update the timer
 					setTimeout(() => setTime(clamp(updatedTime, 0, Infinity)), 1);
 				}
 			}

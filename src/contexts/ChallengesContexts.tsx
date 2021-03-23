@@ -113,21 +113,6 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		}
 	}
 
-	function onChallengeCompleted() {
-		if (!activeChallenge) return;
-
-		let finalXp = currentExperience + activeChallenge.xp;
-
-		if (finalXp >= maxXp) {
-			levelUp();
-			finalXp = (currentExperience + activeChallenge.xp) % maxXp;
-		}
-
-		setChallengesCompleted(challengesCompleted + 1);
-		setCurrentExperience(finalXp);
-		setActiveChallenge(null);
-	}
-
 	function startNewChallenge() {
 		const index = (Math.random() * challenges.length) | 0;
 
@@ -147,6 +132,21 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 		const notificationSound = new Audio("audio/notification-sound.mp3");
 		notificationSound.currentTime = 0;
 		notificationSound.play();
+	}
+
+	function onChallengeCompleted() {
+		if (!activeChallenge) return;
+
+		let finalXp = currentExperience + activeChallenge.xp;
+
+		if (finalXp >= maxXp) {
+			levelUp();
+			finalXp = (currentExperience + activeChallenge.xp) % maxXp;
+		}
+
+		setChallengesCompleted(challengesCompleted + 1);
+		setCurrentExperience(finalXp);
+		setActiveChallenge(null);
 	}
 
 	function resetChallenge() {
