@@ -137,31 +137,36 @@ export function Countdown(props: CountdownProps) {
 
 			const updatedTime = props.currentEndTime - Math.floor(Date.now() / 1000);
 
-			if (updatedTime <= 0) {
-				setHasFinished(true);
-				startNewChallenge();
+			if (updatedTime < -5 * 60) {
+				// shut the timer off
 				setIsActive(false);
-
-				// HACK Timeout to wait the page render the initial time and then update the timer
-				setTimeout(() => setTime(clamp(updatedTime, 0, Infinity)), 1);
-			} else if (props.isCurrentlyPaused) {
-				const newEndTimePaused =
-					Math.floor(Date.now() / 1000) + props.currentTimeRemaining;
-				// HACK Timeout to wait the page render the initial time and then update the timer
-				setTimeout(
-					() => setTime(clamp(props.currentTimeRemaining, 0, Infinity)),
-					1
-				);
-
-				setIsActive(true);
-				setEndTime(newEndTimePaused);
-				setIsPaused(props.isCurrentlyPaused);
 			} else {
-				setIsActive(true);
-				setEndTime(props.currentEndTime);
+				if (updatedTime <= 0) {
+					setHasFinished(true);
+					startNewChallenge();
+					setIsActive(false);
 
-				// HACK Timeout to wait the page render the initial time and then update the timer
-				setTimeout(() => setTime(clamp(updatedTime, 0, Infinity)), 1);
+					// HACK Timeout to wait the page render the initial time and then update the timer
+					setTimeout(() => setTime(clamp(updatedTime, 0, Infinity)), 1);
+				} else if (props.isCurrentlyPaused) {
+					const newEndTimePaused =
+						Math.floor(Date.now() / 1000) + props.currentTimeRemaining;
+					// HACK Timeout to wait the page render the initial time and then update the timer
+					setTimeout(
+						() => setTime(clamp(props.currentTimeRemaining, 0, Infinity)),
+						1
+					);
+
+					setIsActive(true);
+					setEndTime(newEndTimePaused);
+					setIsPaused(props.isCurrentlyPaused);
+				} else {
+					setIsActive(true);
+					setEndTime(props.currentEndTime);
+
+					// HACK Timeout to wait the page render the initial time and then update the timer
+					setTimeout(() => setTime(clamp(updatedTime, 0, Infinity)), 1);
+				}
 			}
 		}
 	}, []);
