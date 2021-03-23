@@ -137,8 +137,8 @@ export function Countdown(props: CountdownProps) {
 
 			const updatedTime = props.currentEndTime - Math.floor(Date.now() / 1000);
 
-			if (updatedTime < -5 * 60) {
-				// shut the timer off
+			if (updatedTime < -10) {
+				// shut the timer off if the user stays away for more the than 10 seconds
 				setIsActive(false);
 			} else {
 				if (updatedTime <= 0) {
