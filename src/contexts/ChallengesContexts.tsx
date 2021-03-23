@@ -65,11 +65,14 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
 	const maxXp = Math.pow((level + 1) * 5, 2);
 
-	const notificationSound = new Audio("audio/notification-sound.mp3");
+	let notificationSound: HTMLAudioElement;
 
-	// ask for notification permission
 	useEffect(() => {
+		// ask for notification permission
 		Notification.requestPermission();
+
+		// initialize audio sound
+		notificationSound = new Audio("audio/notification-sound.mp3");
 	}, []);
 
 	// store user data
