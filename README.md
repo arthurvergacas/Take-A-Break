@@ -42,15 +42,15 @@ While **Take A Break** was first designed to be an only-frontend application, ne
 
 #### **The modified application (**Take A Break**) include all of the above features, or a better version of them, as well as the following new:**
 
-- Customizable timer (5 minutes - 60 minutes)
+- Customizable timer (5 - 60 minutes)
 
-- Login with Google to customizate profile and, futurely, share data between devices
+- Login with Google to customize profile and, futurely, share data between devices
 
 - Customizable logout profile
 
 #### **Some features are still in development, such as:**
 
-- Customize logout profile picture
+- Customizable offline profile picture
 
 - Analytics page (hours worked, days that the user works more, etc)
 
