@@ -1,81 +1,164 @@
 .container {
-	flex: 1;
+  display: grid;
+  grid-template-columns: fit-content(3rem) 1fr;
 
-	display: grid;
-	grid-template-columns: fit-content(3rem) 1fr;
-
-	height: 100vh;
+  height: 100vh;
 }
 
 .menuContainer {
-	height: 100vh;
+  height: 100vh;
 
-	min-width: 6.5rem;
+  min-width: 6.5rem;
 
-	position: relative;
+  position: relative;
 }
 
 .menuBox {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-	position: fixed;
+  position: fixed;
 
-	height: 100%;
-	min-width: 6.5rem;
+  height: 100%;
+  min-width: 6.5rem;
 
-	padding: 2rem;
+  padding: 2rem;
 
-	background: var(--white);
-	box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+  background: var(--white);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
 
-	align-items: center;
+  align-items: center;
 }
 
 .menuBox > img {
-	width: 4.5rem;
+  width: 4.5rem;
 
-	cursor: pointer;
+  cursor: pointer;
 
-	position: absolute;
+  position: absolute;
 
-	top: 1.5rem;
+  top: 1.5rem;
 }
 
 .links {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-	position: absolute;
-	top: 50vh;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-	width: 100%;
+  width: 100%;
 }
 
 .links > a {
-	margin: 1rem 0;
+  margin: 1rem 0;
 
-	justify-content: center;
-	align-items: center;
-	display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 
-	position: relative;
+  position: relative;
 }
 
 .links > a > img {
-	width: 2rem;
+  width: 2rem;
 }
 
 .activeLink {
-	width: 0.25rem;
-	height: 120%;
-	position: absolute;
+  width: 0.25rem;
+  height: 130%;
+  position: absolute;
 
-	border-radius: 2px;
+  border-radius: 2px;
 
-	background: var(--red);
+  background: var(--red);
 
-	right: 0;
+  right: 0;
+}
+
+@media (max-width: 860px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
+  }
+
+  .menuContainer {
+    height: 4rem;
+
+    width: 100vh;
+
+    position: relative;
+  }
+
+  .menuBox {
+    display: flex;
+    flex-direction: row;
+
+    position: fixed;
+    z-index: 100;
+
+    height: 4rem;
+    width: 100vw;
+
+    padding: 2rem;
+
+    background: var(--white);
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+
+    justify-content: center;
+
+    /* animation */
+    top: 0;
+    transition: top 0.4s linear;
+  }
+
+  .menuBox > img {
+    width: 3rem;
+
+    cursor: pointer;
+
+    top: auto;
+    left: 1.5rem;
+    position: fixed;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: row;
+
+    position: absolute;
+    top: auto;
+    left: auto;
+    transform: none;
+
+    width: auto;
+  }
+
+  .links > a {
+    margin: 0 1rem;
+
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    position: relative;
+  }
+
+  .activeLink {
+    width: 130%;
+    height: 0.25rem;
+    position: absolute;
+
+    border-radius: 2px;
+
+    background: var(--red);
+
+    bottom: -1rem;
+    left: auto;
+    right: auto;
+  }
 }

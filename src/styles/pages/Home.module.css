@@ -1,77 +1,95 @@
 .container {
-	height: 100%;
-	max-width: 992px;
-	margin: 0 auto;
-	padding: 2.5rem 0.5rem 0rem 2rem;
+  height: 100%;
+  max-width: 992px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 0rem 2rem;
 
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .container > header {
-	display: grid;
-	grid-template-columns: 9fr 1fr;
-	margin-bottom: 0.8rem;
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  margin-bottom: 0.8rem;
 }
 
 .container > section {
-	flex: 1;
+  flex: 1;
 
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 6.25rem;
-	align-content: center;
-	padding-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-content: center;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 860px) {
+  .container {
+    padding: 2.5rem 1rem 0rem 1rem;
+
+    margin-top: 3rem;
+  }
+
+  .container > section {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-content: center;
+    padding-bottom: 2rem;
+  }
 }
 
 .loginLink {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-	font-size: 1.1rem;
-	font-weight: 500;
+  font-size: 1.1rem;
+  font-weight: 500;
 
-	background: var(--blue);
-	color: var(--background);
-	border-radius: 5px;
+  background: var(--blue);
+  color: var(--background);
+  border-radius: 5px;
 
-	margin-bottom: 1.5rem;
-	margin-left: 1.2rem;
-	min-width: 55px;
-	border: none;
+  margin-bottom: 1.5rem;
+  margin-left: 1.2rem;
+  min-width: 55px;
+  border: none;
 
-	padding: 0.35rem 0.5rem;
+  padding: 0.35rem 0.5rem;
 
-	transition: all 0.1s linear;
+  transition: all 0.1s linear;
 }
 
 .loginLink:hover {
-	background: var(--dark-blue);
+  background: var(--dark-blue);
 }
 
 .logoutLink {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-	font-size: 1.1rem;
-	font-weight: 500;
+  font-size: 1.1rem;
+  font-weight: 500;
 
-	background: var(--blue);
-	color: var(--background);
-	border-radius: 5px;
+  background: var(--blue);
+  color: var(--background);
+  border-radius: 5px;
 
-	margin-bottom: 1.5rem;
-	margin-left: 1.2rem;
-	min-width: 70px;
-	border: none;
+  margin-bottom: 1.5rem;
+  margin-left: 1.2rem;
+  min-width: 70px;
+  border: none;
 
-	padding: 0.35rem 0;
+  padding: 0.35rem 0;
 
-	transition: all 0.1s linear;
+  transition: all 0.1s linear;
 }
 
 .logoutLink:hover {
-	background: var(--dark-blue);
+  background: var(--dark-blue);
 }

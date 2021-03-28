@@ -1,10 +1,10 @@
-import { useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export function useDidUpdateEffect(fn: Function, inputs: Array<any>) {
-	const didMountRef = useRef(false);
+  const didMountRef = useRef(false);
 
-	useEffect(() => {
-		if (didMountRef.current) fn();
-		else didMountRef.current = true;
-	}, inputs);
+  useEffect(() => {
+    if (didMountRef.current) fn();
+    else didMountRef.current = true;
+  }, inputs);
 }
