@@ -78,14 +78,21 @@ export function Menu(props: MenuProps) {
 
     let previousScrollPos = window.pageYOffset;
     function handleScroll() {
-      console.log("im scrolling", window.pageYOffset, previousScrollPos);
-      let currentScrollPos = window.pageYOffset;
-      if (previousScrollPos > currentScrollPos || currentScrollPos <= 40) {
-        navbarDiv.current.style.top = "0";
-      } else {
-        navbarDiv.current.style.top = "-4rem";
+      if (window.innerWidth <= 860) {
+        console.log(
+          "im scrolling",
+          window.pageYOffset,
+          previousScrollPos,
+          window.location
+        );
+        let currentScrollPos = window.pageYOffset;
+        if (previousScrollPos > currentScrollPos || currentScrollPos <= 30) {
+          navbarDiv.current.style.top = "0";
+        } else {
+          navbarDiv.current.style.top = "-4rem";
+        }
+        previousScrollPos = currentScrollPos;
       }
-      previousScrollPos = currentScrollPos;
     }
 
     window.addEventListener("resize", handleResize);

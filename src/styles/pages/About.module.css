@@ -1,44 +1,49 @@
 .container {
-	display: flex;
-	flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-	align-items: center;
-	justify-content: center;
+  padding: 0 1rem;
 
-	padding: 0 1rem;
+  max-height: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  flex: 1 1;
+  flex-direction: column;
 }
 
 .container > img {
-	width: 15rem;
-	height: 15rem;
+  width: 15rem;
+  height: 15rem;
 
-	margin: 1rem 0 2.6rem;
+  margin: 1.5rem 0 2.6rem;
 }
 
 .textContainer {
-	text-align: center;
+  text-align: center;
 
-	font-size: 1.3rem;
-	line-height: 2.7rem;
+  font-size: 1.3rem;
+  line-height: 2.7rem;
 }
 
 .textContainer > strong {
-	font-size: 1.7rem;
+  font-size: 1.7rem;
 
-	color: var(--title);
+  color: var(--title);
 }
 
 .textContainer > p {
-	margin-top: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .textContainer > p a {
-	font-weight: 500;
-	color: var(--title);
+  font-weight: 500;
+  color: var(--title);
 
-	transition: all 0.1s linear;
+  transition: all 0.1s linear;
 }
 
 .textContainer > p a:hover {
-	color: var(--red);
+  color: var(--red);
 }

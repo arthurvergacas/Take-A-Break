@@ -89,7 +89,7 @@
   .menuContainer {
     height: 4rem;
 
-    width: 100vh;
+    max-width: 100vh;
 
     position: relative;
   }
