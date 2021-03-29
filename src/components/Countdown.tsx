@@ -227,18 +227,20 @@ export function Countdown(props: CountdownProps) {
             />
             <div>
               <span>
-                {minutes &&
-                  minutes.toLocaleString("en-US", {
-                    minimumIntegerDigits: 2,
-                    useGrouping: false,
-                  })[0]}
+                {minutes
+                  ? minutes.toLocaleString("en-US", {
+                      minimumIntegerDigits: 2,
+                      useGrouping: false,
+                    })[0]
+                  : 0}
               </span>
               <span>
-                {minutes &&
-                  minutes.toLocaleString("en-US", {
-                    minimumIntegerDigits: 2,
-                    useGrouping: false,
-                  })[1]}
+                {minutes
+                  ? minutes.toLocaleString("en-US", {
+                      minimumIntegerDigits: 2,
+                      useGrouping: false,
+                    })[1]
+                  : 0}
               </span>
             </div>
 
@@ -262,18 +264,20 @@ export function Countdown(props: CountdownProps) {
 
             <div>
               <span>
-                {seconds &&
-                  seconds.toLocaleString("en-US", {
-                    minimumIntegerDigits: 2,
-                    useGrouping: false,
-                  })[0]}
+                {seconds
+                  ? seconds.toLocaleString("en-US", {
+                      minimumIntegerDigits: 2,
+                      useGrouping: false,
+                    })[0]
+                  : 0}
               </span>
               <span>
-                {seconds &&
-                  seconds.toLocaleString("en-US", {
-                    minimumIntegerDigits: 2,
-                    useGrouping: false,
-                  })[1]}
+                {seconds
+                  ? seconds.toLocaleString("en-US", {
+                      minimumIntegerDigits: 2,
+                      useGrouping: false,
+                    })[1]
+                  : 0}
               </span>
             </div>
 
