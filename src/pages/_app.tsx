@@ -116,7 +116,7 @@ function TakeABreak({ Component, pageProps }) {
         <meta property="og:title" content="Take A Break" />
         <meta name="twitter:card" content="summary" />
         <meta property="og:description" content="Home Office com mais saúde!" />
-        <meta property="og:image" content="favicons/favicon-310.png" />
+        <meta property="og:image" content="img/chronometer.png" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
